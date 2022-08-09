@@ -1,0 +1,27 @@
+Sýnýf ve Methot isimleri -> Pascal Case ( Product / GetAll())
+Deðiþken ve Methot parametreleri -> Camel Case ( var resultProduct / GetById(int productId) )
+
+Core Katmaný:
+Modeller
+DTO'lar 
+Enumlar
+Repository ve Service Interfaceleri
+
+Data Katmaný:
+Model Konfigürasyonlarý
+Context Sýnýfý
+Repository Sýnýflarý
+
+Service Katmaný:
+DTO mapleme iþlemleri (DTOMapper içerisinde tanýmlanýr. Kullanýlan bütün class-dto transferi için kesinlikle tanýmlanmalýdýr.)
+Const deðerler (StringInfo içerisinde)
+Service Sýnýflarý
+
+Api Katmaný:
+Controllerlar
+DI nesneleri (Extensions->CustomExtension sýnýfý içerisinde tanýmlýyoruz)
+Validation iþlemleri (DTO sýnýflarý için klasörlenerek yapýlýr)
+
+!!! Controller içerisinde mümkün olduðunca az kod yazýlmalý iþlemler controllerýn service katmanýnda yapýlmalý !!!
+nlog.config dosyasý içerisinde veritabaný connection bilgisi geçilmelidir.
+Projeyi canlýya alýrken swagger yapýlanmasýný developer moddan çýkarmalýsýnýz.

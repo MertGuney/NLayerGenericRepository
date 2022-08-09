@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.Core", "DefaultGenericProject.Core\DefaultGenericProject.Core.csproj", "{8F6904C3-38D7-4D2E-9ABD-7049211082FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.Data", "DefaultGenericProject.Data\DefaultGenericProject.Data.csproj", "{20C2F502-395F-4630-8F28-0900285526C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.Service", "DefaultGenericProject.Service\DefaultGenericProject.Service.csproj", "{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DFCE8F5-FDB8-4414-AE8D-E8AFD82BB64C}"
+	ProjectSection(SolutionItems) = preProject
+		GenelKurallar.txt = GenelKurallar.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.WebApi", "DefaultGenericProject.WebApi\DefaultGenericProject.WebApi.csproj", "{F1BAF9A7-1215-4205-A66C-45DE8648DB08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F6904C3-38D7-4D2E-9ABD-7049211082FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F6904C3-38D7-4D2E-9ABD-7049211082FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F6904C3-38D7-4D2E-9ABD-7049211082FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F6904C3-38D7-4D2E-9ABD-7049211082FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C2F502-395F-4630-8F28-0900285526C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C2F502-395F-4630-8F28-0900285526C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C2F502-395F-4630-8F28-0900285526C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C2F502-395F-4630-8F28-0900285526C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1BAF9A7-1215-4205-A66C-45DE8648DB08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1BAF9A7-1215-4205-A66C-45DE8648DB08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1BAF9A7-1215-4205-A66C-45DE8648DB08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1BAF9A7-1215-4205-A66C-45DE8648DB08}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F63A09A0-CA71-4F50-841D-342B4C76579B}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfssrv01.unibel.tech:8080/tfs/iztekskeleton
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DefaultGenericProject.Core\\DefaultGenericProject.Core.csproj
+		SccProjectName1 = DefaultGenericProject.Core
+		SccLocalPath1 = DefaultGenericProject.Core
+		SccProjectUniqueName2 = DefaultGenericProject.Data\\DefaultGenericProject.Data.csproj
+		SccProjectName2 = DefaultGenericProject.Data
+		SccLocalPath2 = DefaultGenericProject.Data
+		SccProjectUniqueName3 = DefaultGenericProject.Service\\DefaultGenericProject.Service.csproj
+		SccProjectName3 = DefaultGenericProject.Service
+		SccLocalPath3 = DefaultGenericProject.Service
+		SccProjectUniqueName4 = DefaultGenericProject.WebApi\\DefaultGenericProject.WebApi.csproj
+		SccProjectName4 = DefaultGenericProject.WebApi
+		SccLocalPath4 = DefaultGenericProject.WebApi
+	EndGlobalSection
+EndGlobal
