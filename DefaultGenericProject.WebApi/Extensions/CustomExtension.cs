@@ -28,7 +28,7 @@ namespace DefaultGenericProject.WebApi.Extensions
 
             #region Generic
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped(typeof(IGenericService<,>), typeof(GenericService<,>));
+            services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
         }

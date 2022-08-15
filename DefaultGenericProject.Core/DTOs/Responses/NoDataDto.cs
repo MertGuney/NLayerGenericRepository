@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DefaultGenericProject.Core.Dtos.Responses
+namespace DefaultGenericProject.Core.DTOs.Responses
 {
-    public class NoDataDto
+    public class NoDataDTO
     {
     }
 }

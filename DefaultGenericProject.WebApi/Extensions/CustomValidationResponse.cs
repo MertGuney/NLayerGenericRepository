@@ -1,4 +1,4 @@
-﻿using DefaultGenericProject.Core.Dtos.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -15,9 +15,9 @@ namespace DefaultGenericProject.WebApi.Extensions
                 {
                     var errors = context.ModelState.Values.Where(x => x.Errors.Count > 0).SelectMany(x => x.Errors).Select(x => x.ErrorMessage);
 
-                    ErrorDto errorDto = new(errors.ToList(), true);
+                    ErrorDTO errorDTO = new(errors.ToList(), true);
 
-                    var response = Response<NoContentResult>.Fail(errorDto, 400);
+                    var response = Response<NoContentResult>.Fail(errorDTO, 400);
 
                     return new BadRequestObjectResult(response);
                 };

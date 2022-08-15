@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace DefaultGenericProject.Service.Validations.Users
 {
-    public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
+    public class CreateUserDTOValidator : AbstractValidator<CreateUserDTO>
     {
-        public CreateUserDtoValidator()
+        public CreateUserDTOValidator()
         {
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunludur.").EmailAddress().WithMessage("Email düzenine uygun değildir.");
 

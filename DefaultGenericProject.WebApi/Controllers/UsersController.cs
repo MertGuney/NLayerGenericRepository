@@ -32,9 +32,9 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateUserDto updateUserDto)
+        public async Task<IActionResult> Update(UpdateUserDTO updateUserDTO)
         {
-            return ActionResultInstance(await _userService.UpdateUserAsync(updateUserDto));
+            return ActionResultInstance(await _userService.UpdateUserAsync(updateUserDTO));
         }
 
         [HttpDelete("{id}")]

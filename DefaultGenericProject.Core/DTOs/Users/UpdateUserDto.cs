@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Core.DTOs.Users
 {
-    public class UpdateUserDto : BaseEntityDTO
+    public class UpdateUserDTO : BaseEntityDTO
     {
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DefaultGenericProject.Core.DTOs.Users
 {
-    public class CreateUserDto
+    public class CreateUserDTO
     {
         public string Email { get; set; }
         public string Password { get; set; }

@@ -2,6 +2,7 @@
 using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.StringInfos;
+using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,10 @@ namespace DefaultGenericProject.WebApi.Controllers
     [Authorize(Roles = RoleInfo.Admin)]
     public class RolesController : CustomBaseController
     {
-        private readonly IGenericService<Role, RoleDTO> _roleService;
-        private readonly IGenericService<UserRole, UserRoleDTO> _userRoleService;
+        private readonly IGenericService<Role> _roleService;
+        private readonly IGenericService<UserRole> _userRoleService;
 
-        public RolesController(IGenericService<Role, RoleDTO> roleService, IGenericService<UserRole, UserRoleDTO> userRoleService)
+        public RolesController(IGenericService<Role> roleService, IGenericService<UserRole> userRoleService)
         {
             _roleService = roleService;
             _userRoleService = userRoleService;
@@ -26,13 +27,13 @@ namespace DefaultGenericProject.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleDTO roleDTO)
         {
-            return ActionResultInstance(await _roleService.AddAsync(roleDTO));
+            return ActionResultInstance(await _roleService.AddAsync(ObjectMapper.Mapper.Map<Role>(roleDTO)));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddRoleToUser(UserRoleDTO userRoleDTO)
         {
-            return ActionResultInstance(await _userRoleService.AddAsync(userRoleDTO));
+            return ActionResultInstance(await _userRoleService.AddAsync(ObjectMapper.Mapper.Map<UserRole>(userRoleDTO)));
         }
     }
 }

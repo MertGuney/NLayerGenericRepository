@@ -13,7 +13,7 @@ Context Sýnýfý
 Repository Sýnýflarý
 
 Service Katmaný:
-DTO mapleme iþlemleri (DTOMapper içerisinde tanýmlanýr. Kullanýlan bütün class-dto transferi için kesinlikle tanýmlanmalýdýr.)
+DTO mapleme iþlemleri (DTOMapper içerisinde tanýmlanýr. Kullanýlan bütün class-DTO transferi için kesinlikle tanýmlanmalýdýr.)
 Const deðerler (StringInfo içerisinde)
 Service Sýnýflarý
 

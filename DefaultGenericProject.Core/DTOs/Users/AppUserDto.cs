@@ -2,7 +2,7 @@
 
 namespace DefaultGenericProject.Core.DTOs.Users
 {
-    public class AppUserDto : BaseEntityDTO
+    public class AppUserDTO : BaseEntityDTO
     {
         public string Name { get; set; }
         public string Surname { get; set; }

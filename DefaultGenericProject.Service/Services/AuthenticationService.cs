@@ -1,5 +1,5 @@
 ﻿using DefaultGenericProject.Core.Configuration;
-using DefaultGenericProject.Core.Dtos.Responses;
+using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.DTOs.Logins;
 using DefaultGenericProject.Core.DTOs.Tokens;
 using DefaultGenericProject.Core.Models.Users;
@@ -44,14 +44,14 @@ namespace DefaultGenericProject.Service.Services
             return await _userRepository.Where(x => x.Email == email && x.Password == PasswordHash(password)).AnyAsync();
         }
 
-        public async Task<Response<TokenDTO>> CreateTokenAsync(LoginDto loginDto)
+        public async Task<Response<TokenDTO>> CreateTokenAsync(LoginDTO loginDTO)
         {
-            if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
+            if (loginDTO == null) throw new ArgumentNullException(nameof(loginDTO));
 
-            var user = await _userRepository.Where(x => x.Email == loginDto.Email).FirstOrDefaultAsync();
+            var user = await _userRepository.Where(x => x.Email == loginDTO.Email).FirstOrDefaultAsync();
             if (user == null) return Response<TokenDTO>.Fail("Email veya Şifre yanlış.", 400, true);
 
-            if (!await CheckPasswordAsync(loginDto.Email, loginDto.Password))
+            if (!await CheckPasswordAsync(loginDTO.Email, loginDTO.Password))
             {
                 return Response<TokenDTO>.Fail("Email veya Şifre yanlış", 400, true);
             }
@@ -102,14 +102,14 @@ namespace DefaultGenericProject.Service.Services
             return Response<TokenDTO>.Success(tokenDTO, 200);
         }
 
-        public async Task<Response<LoginResultDTO>> Login(LoginDto loginDto)
+        public async Task<Response<LoginResultDTO>> Login(LoginDTO loginDTO)
         {
-            if (loginDto == null) throw new ArgumentNullException(nameof(loginDto));
+            if (loginDTO == null) throw new ArgumentNullException(nameof(loginDTO));
 
-            var user = await _userRepository.Where(x => x.Email == loginDto.Email).FirstOrDefaultAsync();
+            var user = await _userRepository.Where(x => x.Email == loginDTO.Email).FirstOrDefaultAsync();
             if (user == null) return Response<LoginResultDTO>.Fail("Email veya Şifre yanlış.", 400, true);
 
-            if (!await CheckPasswordAsync(loginDto.Email, loginDto.Password))
+            if (!await CheckPasswordAsync(loginDTO.Email, loginDTO.Password))
             {
                 return Response<LoginResultDTO>.Fail("Email veya Şifre yanlış", 400, true);
             }
@@ -144,16 +144,16 @@ namespace DefaultGenericProject.Service.Services
             return Response<LoginResultDTO>.Success(userCreatedMap, 200);
         }
 
-        public async Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken)
+        public async Task<Response<NoDataDTO>> RevokeRefreshToken(string refreshToken)
         {
             var existRefreshToken = await _userRefreshTokenRepository.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
             if (existRefreshToken == null)
             {
-                return Response<NoDataDto>.Fail("Refresh token not found", 404, true);
+                return Response<NoDataDTO>.Fail("Refresh token not found", 404, true);
             }
             _userRefreshTokenRepository.Remove(existRefreshToken);
             await _unitOfWork.CommmitAsync();
-            return Response<NoDataDto>.Success(200);
+            return Response<NoDataDTO>.Success(200);
         }
     }
 }

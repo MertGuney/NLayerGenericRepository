@@ -18,9 +18,9 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            return ActionResultInstance(await _authenticationService.CreateTokenAsync(loginDto));
+            return ActionResultInstance(await _authenticationService.CreateTokenAsync(loginDTO));
         }
 
         [HttpPost]

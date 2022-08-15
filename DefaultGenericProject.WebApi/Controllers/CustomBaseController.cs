@@ -1,4 +1,4 @@
-﻿using DefaultGenericProject.Core.Dtos.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

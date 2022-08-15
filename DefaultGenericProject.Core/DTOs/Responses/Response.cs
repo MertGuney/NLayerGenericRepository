@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace DefaultGenericProject.Core.Dtos.Responses
+namespace DefaultGenericProject.Core.DTOs.Responses
 {
     public class Response<T> where T : class
     {
@@ -13,7 +13,7 @@ namespace DefaultGenericProject.Core.Dtos.Responses
         [JsonIgnore]
         public bool IsSuccessful { get; private set; }
 
-        public ErrorDto Error { get; private set; }
+        public ErrorDTO Error { get; private set; }
 
         public static Response<T> Success(T data, int statusCode)
         {
@@ -25,11 +25,11 @@ namespace DefaultGenericProject.Core.Dtos.Responses
             return new Response<T> { Data = default, StatusCode = statusCode, IsSuccessful = true };
         }
 
-        public static Response<T> Fail(ErrorDto errorDto, int statusCode)
+        public static Response<T> Fail(ErrorDTO errorDTO, int statusCode)
         {
             return new Response<T>
             {
-                Error = errorDto,
+                Error = errorDTO,
                 StatusCode = statusCode,
                 IsSuccessful = false
             };
@@ -37,9 +37,9 @@ namespace DefaultGenericProject.Core.Dtos.Responses
 
         public static Response<T> Fail(string errorMessage, int statusCode, bool isShow)
         {
-            var errorDto = new ErrorDto(errorMessage, isShow);
+            var errorDTO = new ErrorDTO(errorMessage, isShow);
 
-            return new Response<T> { Error = errorDto, StatusCode = statusCode, IsSuccessful = false };
+            return new Response<T> { Error = errorDTO, StatusCode = statusCode, IsSuccessful = false };
         }
     }
 }

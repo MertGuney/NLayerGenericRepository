@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DefaultGenericProject.Core.Dtos.Responses
+namespace DefaultGenericProject.Core.DTOs.Responses
 {
-    public class ErrorDto
+    public class ErrorDTO
     {
         public List<string> Errors { get; private set; } = new List<string>();
 
         public bool IsShow { get; private set; }
 
-        public ErrorDto(string error, bool isShow)
+        public ErrorDTO(string error, bool isShow)
         {
             Errors.Add(error);
             IsShow = isShow;
         }
 
-        public ErrorDto(List<string> errors, bool isShow)
+        public ErrorDTO(List<string> errors, bool isShow)
         {
             Errors = errors;
             IsShow = isShow;

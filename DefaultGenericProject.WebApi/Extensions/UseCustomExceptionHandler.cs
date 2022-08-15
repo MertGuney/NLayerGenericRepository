@@ -1,4 +1,4 @@
-﻿using DefaultGenericProject.Core.Dtos.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Service.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -27,7 +27,7 @@ namespace DefaultGenericProject.WebApi.Extensions
                     };
                     context.Response.StatusCode = statusCode;
 
-                    var response = Response<NoDataDto>.Fail(exceptionFeature.Error.Message, statusCode, false);
+                    var response = Response<NoDataDTO>.Fail(exceptionFeature.Error.Message, statusCode, false);
                     await context.Response.WriteAsync(JsonSerializer.Serialize(response));
 
                 });

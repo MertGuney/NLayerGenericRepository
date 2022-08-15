@@ -67,7 +67,7 @@ namespace DefaultGenericProject.WebApi
 
             services.AddControllers().AddFluentValidation(opts =>
             {
-                opts.RegisterValidatorsFromAssemblyContaining<LoginDtoValidator>();
+                opts.RegisterValidatorsFromAssemblyContaining<LoginDTOValidator>();
             });
 
             services.AddCustomValidationResponse();

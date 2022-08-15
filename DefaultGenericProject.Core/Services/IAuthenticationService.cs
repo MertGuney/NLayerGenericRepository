@@ -1,4 +1,4 @@
-﻿using DefaultGenericProject.Core.Dtos.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.DTOs.Logins;
 using DefaultGenericProject.Core.DTOs.Tokens;
 using System.Threading.Tasks;
@@ -10,9 +10,9 @@ namespace DefaultGenericProject.Core.Services
         /// <summary>
         /// Token alarak login olma işlemi
         /// </summary>
-        /// <param name="loginDto"></param>
+        /// <param name="loginDTO"></param>
         /// <returns></returns>
-        Task<Response<TokenDTO>> CreateTokenAsync(LoginDto loginDto);
+        Task<Response<TokenDTO>> CreateTokenAsync(LoginDTO loginDTO);
         /// <summary>
         /// Kullanıcının refresh tokenı ile yeni access token oluşturma işlemi
         /// </summary>
@@ -30,13 +30,13 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        Task<Response<NoDataDto>> RevokeRefreshToken(string refreshToken);
+        Task<Response<NoDataDTO>> RevokeRefreshToken(string refreshToken);
         /// <summary>
         /// Giriş yapma işlemi
         /// </summary>
-        /// <param name="loginDto"></param>
+        /// <param name="loginDTO"></param>
         /// <returns></returns>
-        Task<Response<LoginResultDTO>> Login(LoginDto loginDto);
+        Task<Response<LoginResultDTO>> Login(LoginDTO loginDTO);
         /// <summary>
         /// Kullanıcı kayıt işlemi
         /// </summary>
