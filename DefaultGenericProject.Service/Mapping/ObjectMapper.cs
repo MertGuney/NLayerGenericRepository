@@ -5,7 +5,7 @@ namespace DefaultGenericProject.Service.Mapping
 {
     public static class ObjectMapper
     {
-        private static readonly Lazy<IMapper> lazy = new Lazy<IMapper>(() =>
+        private static readonly Lazy<IMapper> lazy = new(() =>
         {
             var config = new MapperConfiguration(cfg =>
             {
