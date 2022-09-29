@@ -8,9 +8,10 @@ namespace DefaultGenericProject.Core.Models.Users
 {
     public class UserRefreshToken : BaseEntity
     {
-        public string UserId { get; set; }
         public string Code { get; set; }
         public DateTime Expiration { get; set; }
+
+        public Guid UserId { get; set; }
         public User User { get; set; }
     }
 }

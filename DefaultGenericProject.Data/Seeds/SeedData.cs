@@ -1,6 +1,5 @@
 ﻿using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Services;
-using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.StringInfos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,30 +17,30 @@ namespace DefaultGenericProject.Data.Seeds
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var authService = scope.ServiceProvider.GetRequiredService<IAuthenticationService>();
             context.Database.Migrate();
-            if (context.Users.Count() == 0)
+            if (!context.Users.Any() && !context.Roles.Any())
             {
-                context.Users.Add(new User()
+                User user = new()
                 {
                     Username = "SuperAdmin",
                     Email = "superadmin@izmirteknoloji.com.tr",
                     Password = authService.PasswordHash("Password*-1"),
-                });
-                if (context.Roles.Count() == 0)
+                };
+                context.Users.Add(user);
+
+                List<Role> roles = new()
                 {
-                    context.Roles.AddRange(new List<Role>()
-                    {
-                    new Role(){ Name = RoleInfo.Admin},
-                    new Role(){ Name = RoleInfo.Member}
-                    });
-                }
-                context.SaveChanges();
-                var roleId = context.Roles.Where(x => x.Name == RoleInfo.Admin).Select(x => x.Id).FirstOrDefault();
-                var userId = context.Users.Select(x => x.Id).FirstOrDefault();
-                context.UserRoles.Add(new UserRole()
+                    new Role(){Name = RoleInfo.Admin },
+                    new Role(){Name = RoleInfo.Member }
+                };
+                context.Roles.AddRange(roles);
+
+                UserRole userRole = new()
                 {
-                    UserId = userId,
-                    RoleId = roleId
-                });
+                    UserId = roles.Where(x => x.Name == RoleInfo.Admin).Select(x => x.Id).FirstOrDefault(),
+                    RoleId = user.Id
+                };
+                context.UserRoles.Add(userRole);
+
                 context.SaveChanges();
             }
         }

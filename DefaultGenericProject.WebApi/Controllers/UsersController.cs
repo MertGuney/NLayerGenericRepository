@@ -3,6 +3,7 @@ using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.StringInfos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DefaultGenericProject.WebApi.Controllers
@@ -26,7 +27,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             return ActionResultInstance(await _userService.GetByIdAsync(id));
         }
@@ -38,7 +39,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             return ActionResultInstance(await _userService.DeleteUserAsync(id));
         }

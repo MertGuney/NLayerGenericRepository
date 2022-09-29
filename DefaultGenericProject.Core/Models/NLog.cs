@@ -4,7 +4,7 @@ namespace DefaultGenericProject.Core.Models
 {
     public class NLog
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Callsite { get; set; }
         public string Exception { get; set; }
         public string Level { get; set; }

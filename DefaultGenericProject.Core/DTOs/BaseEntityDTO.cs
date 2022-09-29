@@ -11,7 +11,7 @@ namespace DefaultGenericProject.Core.DTOs
     public class BaseEntityDTO
     {
         [JsonIgnore]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Guid Id { get; set; }
         [JsonIgnore]
         public DataStatus Status { get; set; } = DataStatus.Active;
         [JsonIgnore]

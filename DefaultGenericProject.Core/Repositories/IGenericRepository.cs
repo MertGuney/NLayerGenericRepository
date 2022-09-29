@@ -9,8 +9,8 @@ namespace DefaultGenericProject.Core.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        TEntity GetById(string id);
-        Task<TEntity> GetByIdAsync(string id);
+        TEntity GetById(Guid id);
+        Task<TEntity> GetByIdAsync(Guid id);
         IQueryable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync();
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);

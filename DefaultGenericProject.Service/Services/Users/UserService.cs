@@ -9,6 +9,7 @@ using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -49,7 +50,7 @@ namespace DefaultGenericProject.Service.Services
             return Response<NoDataDTO>.Success(204);
         }
 
-        public async Task<Response<NoDataDTO>> DeleteUserAsync(string id)
+        public async Task<Response<NoDataDTO>> DeleteUserAsync(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)

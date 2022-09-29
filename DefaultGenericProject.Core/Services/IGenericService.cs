@@ -15,13 +15,13 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Response<TEntity> GetById(string id);
+        Response<TEntity> GetById(Guid id);
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye DTO döner.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<TEntity>> GetByIdAsync(string id);
+        Task<Response<TEntity>> GetByIdAsync(Guid id);
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir. IQueryable(Sorgulanabilir) DTO data döner. 
         /// </summary>
@@ -86,7 +86,7 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<NoDataDTO>> Remove(string id);
+        Task<Response<NoDataDTO>> Remove(Guid id);
         /// <summary>
         /// Çoklu veri silme işlemidir. Liste olarak Entity alır. Geriye data dönmez.
         /// </summary>

@@ -8,7 +8,7 @@ namespace DefaultGenericProject.Core.DTOs.Roles
 {
     public class UserRoleDTO : BaseEntityDTO
     {
-        public string UserId { get; set; }
-        public string RoleId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid RoleId { get; set; }
     }
 }

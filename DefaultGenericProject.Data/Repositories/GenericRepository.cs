@@ -46,7 +46,7 @@ namespace DefaultGenericProject.Data.Repositories
             return await _dbSet.Where(x => x.Status == DataStatus.Active).ToListAsync();
         }
 
-        public Tentity GetById(string id)
+        public Tentity GetById(Guid id)
         {
             var entity = _dbSet.Where(x => x.Id == id && x.Status == DataStatus.Active).FirstOrDefault();
             if (entity != null)
@@ -56,7 +56,7 @@ namespace DefaultGenericProject.Data.Repositories
             return entity;
         }
 
-        public async Task<Tentity> GetByIdAsync(string id)
+        public async Task<Tentity> GetByIdAsync(Guid id)
         {
             var entity = await _dbSet.Where(x => x.Id == id && x.Status == DataStatus.Active).FirstOrDefaultAsync();
             if (entity != null)

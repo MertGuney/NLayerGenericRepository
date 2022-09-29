@@ -78,7 +78,7 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public Response<TEntity> GetById(string id)
+        public Response<TEntity> GetById(Guid id)
         {
             var result = _genericRepository.GetById(id);
             if (result == null)
@@ -88,7 +88,7 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(ObjectMapper.Mapper.Map<TEntity>(result), 200);
         }
 
-        public async Task<Response<TEntity>> GetByIdAsync(string id)
+        public async Task<Response<TEntity>> GetByIdAsync(Guid id)
         {
             var result = await _genericRepository.GetByIdAsync(id);
             if (result == null)
@@ -98,7 +98,7 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(ObjectMapper.Mapper.Map<TEntity>(result), 200);
         }
 
-        public async Task<Response<NoDataDTO>> Remove(string id)
+        public async Task<Response<NoDataDTO>> Remove(Guid id)
         {
             var isExistEntity = await _genericRepository.GetByIdAsync(id);
 

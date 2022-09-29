@@ -6,6 +6,7 @@ using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DefaultGenericProject.WebApi.Controllers
@@ -28,7 +29,7 @@ namespace DefaultGenericProject.WebApi.Controllers
             return ActionResultInstance(await _genericService.GetAllAsync());
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
             return ActionResultInstance(await _genericService.GetByIdAsync(id));
         }
