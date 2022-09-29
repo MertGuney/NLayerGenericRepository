@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Core.DTOs.Logins
 {
-    public class LoginResultDTO
+    public class LoginResponseDTO
     {
         public string Email { get; set; }
         public string Name { get; set; }

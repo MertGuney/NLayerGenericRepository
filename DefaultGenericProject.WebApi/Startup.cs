@@ -1,7 +1,7 @@
 using DefaultGenericProject.Core.Configuration;
-using DefaultGenericProject.Core.DTOs.Tokens;
 using DefaultGenericProject.Data;
 using DefaultGenericProject.Data.Seeds;
+using DefaultGenericProject.Service.Filters;
 using DefaultGenericProject.Service.Services;
 using DefaultGenericProject.Service.Validations;
 using DefaultGenericProject.WebApi.Extensions;
@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,7 +75,11 @@ namespace DefaultGenericProject.WebApi
                 ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
             });
 
-            services.AddControllers().AddFluentValidation(opts =>
+            services.AddControllers(x =>
+            {
+                //x.Filters.Add(new AuthorizeFilter());
+                x.Filters.Add(new ValidateFilterAttribute());
+            }).AddFluentValidation(opts =>
             {
                 opts.RegisterValidatorsFromAssemblyContaining<LoginDTOValidator>();
             });

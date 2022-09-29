@@ -35,6 +35,11 @@ namespace DefaultGenericProject.Core.DTOs.Responses
             };
         }
 
+        public static Response<T> Fail(List<string> errors, int statusCode)
+        {
+            return new Response<T> { Error = new ErrorDTO(errors, true), StatusCode = statusCode };
+        }
+
         public static Response<T> Fail(string errorMessage, int statusCode, bool isShow)
         {
             var errorDTO = new ErrorDTO(errorMessage, isShow);

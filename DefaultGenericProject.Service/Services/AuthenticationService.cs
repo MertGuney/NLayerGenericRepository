@@ -102,19 +102,19 @@ namespace DefaultGenericProject.Service.Services
             return Response<TokenDTO>.Success(tokenDTO, 200);
         }
 
-        public async Task<Response<LoginResultDTO>> Login(LoginDTO loginDTO)
+        public async Task<Response<LoginResponseDTO>> Login(LoginDTO loginDTO)
         {
             if (loginDTO == null) throw new ArgumentNullException(nameof(loginDTO));
 
             var user = await _userRepository.Where(x => x.Email == loginDTO.Email).FirstOrDefaultAsync();
-            if (user == null) return Response<LoginResultDTO>.Fail("Email veya Şifre yanlış.", 400, true);
+            if (user == null) return Response<LoginResponseDTO>.Fail("Email veya Şifre yanlış.", 400, true);
 
             if (!await CheckPasswordAsync(loginDTO.Email, loginDTO.Password))
             {
-                return Response<LoginResultDTO>.Fail("Email veya Şifre yanlış", 400, true);
+                return Response<LoginResponseDTO>.Fail("Email veya Şifre yanlış", 400, true);
             }
-            var userMap = ObjectMapper.Mapper.Map<LoginResultDTO>(user);
-            return Response<LoginResultDTO>.Success(userMap, 200);
+            var userMap = ObjectMapper.Mapper.Map<LoginResponseDTO>(user);
+            return Response<LoginResponseDTO>.Success(userMap, 200);
         }
 
         public string PasswordHash(string password)
@@ -129,19 +129,19 @@ namespace DefaultGenericProject.Service.Services
             );
         }
 
-        public async Task<Response<LoginResultDTO>> Register(RegisterDTO registerDTO)
+        public async Task<Response<LoginResponseDTO>> Register(RegisterDTO registerDTO)
         {
             if (registerDTO == null)
             {
-                return Response<LoginResultDTO>.Fail("Model boş gönderilemez.", 404, true);
+                return Response<LoginResponseDTO>.Fail("Model boş gönderilemez.", 404, true);
             }
             registerDTO.Password = PasswordHash(registerDTO.Password);
             var userMap = ObjectMapper.Mapper.Map<User>(registerDTO);
             userMap.IpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             await _userRepository.AddAsync(userMap);
             await _unitOfWork.CommmitAsync();
-            var userCreatedMap = ObjectMapper.Mapper.Map<LoginResultDTO>(userMap);
-            return Response<LoginResultDTO>.Success(userCreatedMap, 200);
+            var userCreatedMap = ObjectMapper.Mapper.Map<LoginResponseDTO>(userMap);
+            return Response<LoginResponseDTO>.Success(userCreatedMap, 200);
         }
 
         public async Task<Response<NoDataDTO>> RevokeRefreshToken(string refreshToken)

@@ -29,19 +29,12 @@ namespace DefaultGenericProject.Service.Services
 
         public async Task<Response<NoDataDTO>> UpdateUserAsync(UpdateUserDTO updateUserDTO)
         {
-            if (updateUserDTO == null)
-            {
-                Response<NoDataDTO>.Fail("Model boş gönderilemez.", 400, true);
-            }
             var user = await _userRepository.GetByIdAsync(updateUserDTO.Id);
             if (user == null)
             {
                 Response<NoDataDTO>.Fail("Kullanıcı bulunamadı.", 404, true);
             }
-            if (updateUserDTO.FullName == null)
-            {
-                updateUserDTO.FullName = (updateUserDTO.Name + " " + updateUserDTO.Surname).ToUpper();
-            }
+            updateUserDTO.FullName ??= (updateUserDTO.Name + " " + updateUserDTO.Surname).ToUpper();
             var userMap = ObjectMapper.Mapper.Map<User>(updateUserDTO);
             userMap.Password = user.Password;
             userMap.IpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();

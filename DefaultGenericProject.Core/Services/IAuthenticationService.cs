@@ -36,13 +36,13 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <param name="loginDTO"></param>
         /// <returns></returns>
-        Task<Response<LoginResultDTO>> Login(LoginDTO loginDTO);
+        Task<Response<LoginResponseDTO>> Login(LoginDTO loginDTO);
         /// <summary>
         /// Kullanıcı kayıt işlemi
         /// </summary>
         /// <param name="registerDTO"></param>
         /// <returns></returns>
-        Task<Response<LoginResultDTO>> Register(RegisterDTO registerDTO);
+        Task<Response<LoginResponseDTO>> Register(RegisterDTO registerDTO);
         /// <summary>
         /// Şifreyi kontrol etme işlemi
         /// </summary>

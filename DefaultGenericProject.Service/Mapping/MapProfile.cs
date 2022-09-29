@@ -17,7 +17,7 @@ namespace DefaultGenericProject.Service.Mapping
             CreateMap<User, AppUserDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
             CreateMap<User, UpdateUserDTO>().ReverseMap();
-            CreateMap<User, LoginResultDTO>().ReverseMap();
+            CreateMap<User, LoginResponseDTO>().ReverseMap();
 
             CreateMap<AppUserDTO, CreateUserDTO>().ReverseMap();
             CreateMap<AppUserDTO, UpdateUserDTO>().ReverseMap();
