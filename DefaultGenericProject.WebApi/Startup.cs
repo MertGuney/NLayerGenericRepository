@@ -8,6 +8,9 @@ using DefaultGenericProject.WebApi.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -63,6 +66,12 @@ namespace DefaultGenericProject.WebApi
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
+            });
+
+            services.AddDataProtection().UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
+            {
+                EncryptionAlgorithm = EncryptionAlgorithm.AES_256_GCM,
+                ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
             });
 
             services.AddControllers().AddFluentValidation(opts =>

@@ -43,24 +43,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F63A09A0-CA71-4F50-841D-342B4C76579B}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfssrv01.unibel.tech:8080/tfs/iztekskeleton
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DefaultGenericProject.Core\\DefaultGenericProject.Core.csproj
-		SccProjectName1 = DefaultGenericProject.Core
-		SccLocalPath1 = DefaultGenericProject.Core
-		SccProjectUniqueName2 = DefaultGenericProject.Data\\DefaultGenericProject.Data.csproj
-		SccProjectName2 = DefaultGenericProject.Data
-		SccLocalPath2 = DefaultGenericProject.Data
-		SccProjectUniqueName3 = DefaultGenericProject.Service\\DefaultGenericProject.Service.csproj
-		SccProjectName3 = DefaultGenericProject.Service
-		SccLocalPath3 = DefaultGenericProject.Service
-		SccProjectUniqueName4 = DefaultGenericProject.WebApi\\DefaultGenericProject.WebApi.csproj
-		SccProjectName4 = DefaultGenericProject.WebApi
-		SccLocalPath4 = DefaultGenericProject.WebApi
+		SolutionGuid = {CC5EB302-88E3-41B2-9E34-2B123F2CF704}
 	EndGlobalSection
 EndGlobal

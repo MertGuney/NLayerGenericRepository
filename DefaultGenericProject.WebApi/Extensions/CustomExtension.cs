@@ -16,6 +16,7 @@ namespace DefaultGenericProject.WebApi.Extensions
         public static void AddDependencies(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<ICipherService, CipherService>();
 
             #region Tokens
             services.AddScoped<ITokenService, TokenService>();
