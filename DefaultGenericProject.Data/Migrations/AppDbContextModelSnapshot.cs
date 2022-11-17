@@ -21,10 +21,9 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.NLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Callsite")
                         .HasColumnType("nvarchar(max)");
@@ -57,8 +56,9 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.Product", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -82,8 +82,9 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.Users.Role", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -105,8 +106,9 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.Users.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasMaxLength(512)
@@ -175,8 +177,9 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.Users.UserRefreshToken", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .HasMaxLength(128)
@@ -194,8 +197,8 @@ namespace DefaultGenericProject.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -206,14 +209,15 @@ namespace DefaultGenericProject.Data.Migrations
 
             modelBuilder.Entity("DefaultGenericProject.Core.Models.Users.UserRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -221,16 +225,15 @@ namespace DefaultGenericProject.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
                     b.HasIndex("UserId", "RoleId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL AND [RoleId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("UserRoles");
                 });
@@ -239,7 +242,9 @@ namespace DefaultGenericProject.Data.Migrations
                 {
                     b.HasOne("DefaultGenericProject.Core.Models.Users.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -248,11 +253,15 @@ namespace DefaultGenericProject.Data.Migrations
                 {
                     b.HasOne("DefaultGenericProject.Core.Models.Users.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DefaultGenericProject.Core.Models.Users.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
 

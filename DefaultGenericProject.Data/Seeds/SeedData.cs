@@ -36,8 +36,8 @@ namespace DefaultGenericProject.Data.Seeds
 
                 UserRole userRole = new()
                 {
-                    UserId = roles.Where(x => x.Name == RoleInfo.Admin).Select(x => x.Id).FirstOrDefault(),
-                    RoleId = user.Id
+                    UserId = user.Id,
+                    RoleId = roles.Where(x => x.Name == RoleInfo.Admin).Select(x => x.Id).FirstOrDefault(),
                 };
                 context.UserRoles.Add(userRole);
 
