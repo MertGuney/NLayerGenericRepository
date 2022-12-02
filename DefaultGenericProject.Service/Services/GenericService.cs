@@ -1,4 +1,5 @@
 ﻿using DefaultGenericProject.Core.DTOs.Responses;
+using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
@@ -58,9 +59,9 @@ namespace DefaultGenericProject.Service.Services
             return await _genericRepository.AnyAsync(expression);
         }
 
-        public Response<IQueryable<TEntity>> GetAll()
+        public Response<IQueryable<TEntity>> GetAll(DataStatus? dataStatus = DataStatus.Active)
         {
-            var results = ObjectMapper.Mapper.Map<IQueryable<TEntity>>(_genericRepository.GetAll());
+            var results = ObjectMapper.Mapper.Map<IQueryable<TEntity>>(_genericRepository.GetAll(dataStatus));
             if (results == null)
             {
                 return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
@@ -68,9 +69,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TEntity>>.Success(results, 200);
         }
 
-        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync()
+        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
         {
-            var results = ObjectMapper.Mapper.Map<List<TEntity>>(await _genericRepository.GetAllAsync());
+            var results = ObjectMapper.Mapper.Map<List<TEntity>>(await _genericRepository.GetAllAsync(dataStatus));
             if (results == null)
             {
                 return Response<IEnumerable<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
@@ -78,9 +79,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public Response<TEntity> GetById(Guid id)
+        public Response<TEntity> GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
-            var result = _genericRepository.GetById(id);
+            var result = _genericRepository.GetById(id, dataStatus);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -88,9 +89,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(ObjectMapper.Mapper.Map<TEntity>(result), 200);
         }
 
-        public async Task<Response<TEntity>> GetByIdAsync(Guid id)
+        public async Task<Response<TEntity>> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
-            var result = await _genericRepository.GetByIdAsync(id);
+            var result = await _genericRepository.GetByIdAsync(id, dataStatus);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -125,7 +126,7 @@ namespace DefaultGenericProject.Service.Services
             return Response<NoDataDTO>.Success(204);
         }
 
-        public async Task<Response<NoDataDTO>> SetInactive(TEntity entity)
+        public async Task<Response<NoDataDTO>> SetStatus(TEntity entity, DataStatus dataStatus)
         {
             var isExistEntity = await _genericRepository.GetByIdAsync(entity.Id);
             if (isExistEntity == null)
@@ -135,7 +136,7 @@ namespace DefaultGenericProject.Service.Services
 
             var updateEntity = ObjectMapper.Mapper.Map<TEntity>(entity);
 
-            _genericRepository.SetInactive(updateEntity);
+            _genericRepository.SetStatus(updateEntity, dataStatus);
             await _unitOfWork.CommmitAsync();
 
             return Response<NoDataDTO>.Success(204);

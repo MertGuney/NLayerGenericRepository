@@ -1,10 +1,10 @@
 ﻿using DefaultGenericProject.Core.DTOs;
+using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.StringInfos;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -49,7 +49,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         [Authorize(Roles = RoleInfo.ProductRemove)]
         public async Task<IActionResult> Remove(ProductDTO productDTO)
         {
-            return ActionResultInstance(await _genericService.SetInactive(ObjectMapper.Mapper.Map<Product>(productDTO)));
+            return ActionResultInstance(await _genericService.SetStatus(ObjectMapper.Mapper.Map<Product>(productDTO), DataStatus.Inactive));
         }
     }
 }

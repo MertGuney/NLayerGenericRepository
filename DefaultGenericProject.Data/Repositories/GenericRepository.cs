@@ -36,19 +36,19 @@ namespace DefaultGenericProject.Data.Repositories
             return await _dbSet.AnyAsync(expression);
         }
 
-        public IQueryable<Tentity> GetAll()
+        public IQueryable<Tentity> GetAll(DataStatus? dataStatus = DataStatus.Active)
         {
-            return _dbSet.Where(x => x.Status == DataStatus.Active).AsNoTracking().AsQueryable();
+            return _dbSet.Where(x => x.Status == dataStatus).AsNoTracking().AsQueryable();
         }
 
-        public async Task<IEnumerable<Tentity>> GetAllAsync()
+        public async Task<IEnumerable<Tentity>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
         {
-            return await _dbSet.Where(x => x.Status == DataStatus.Active).ToListAsync();
+            return await _dbSet.Where(x => x.Status == dataStatus).ToListAsync();
         }
 
-        public Tentity GetById(Guid id)
+        public Tentity GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
-            var entity = _dbSet.Where(x => x.Id == id && x.Status == DataStatus.Active).FirstOrDefault();
+            var entity = _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefault();
             if (entity != null)
             {
                 _context.Entry(entity).State = EntityState.Detached;
@@ -56,9 +56,9 @@ namespace DefaultGenericProject.Data.Repositories
             return entity;
         }
 
-        public async Task<Tentity> GetByIdAsync(Guid id)
+        public async Task<Tentity> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
-            var entity = await _dbSet.Where(x => x.Id == id && x.Status == DataStatus.Active).FirstOrDefaultAsync();
+            var entity = await _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefaultAsync();
             if (entity != null)
             {
                 _context.Entry(entity).State = EntityState.Detached;
@@ -81,10 +81,10 @@ namespace DefaultGenericProject.Data.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public void SetInactive(Tentity entity)
+        public void SetStatus(Tentity entity, DataStatus dataStatus)
         {
-            entity.UpdatedDate= DateTime.Now;
-            entity.Status= DataStatus.Inactive;
+            entity.UpdatedDate = DateTime.Now;
+            entity.Status = dataStatus;
             _context.Entry(entity).State = EntityState.Modified;
         }
 

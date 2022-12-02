@@ -1,4 +1,5 @@
 ﻿using DefaultGenericProject.Core.DTOs.Responses;
+using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -15,23 +16,23 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Response<TEntity> GetById(Guid id);
+        Response<TEntity> GetById(Guid id, DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye DTO döner.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<TEntity>> GetByIdAsync(Guid id);
+        Task<Response<TEntity>> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir. IQueryable(Sorgulanabilir) DTO data döner. 
         /// </summary>
         /// <returns></returns>
-        Response<IQueryable<TEntity>> GetAll();
+        Response<IQueryable<TEntity>> GetAll(DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye DTO data döner.
         /// </summary>
         /// <returns></returns>
-        Task<Response<IEnumerable<TEntity>>> GetAllAsync();
+        Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// Sorgulama işlemidir. Func Delege alır. Geriye IEnumerable DTO döner.
         /// </summary>
@@ -74,12 +75,12 @@ namespace DefaultGenericProject.Core.Services
         /// <returns></returns>
         Task<Response<NoDataDTO>> UpdateEntryState(TEntity entity);
         /// <summary>
-        /// Veri durumunu pasife çekerek silme işlemidir.
+        /// Veri durumunu güncelleme işlemidir.
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<NoDataDTO>> SetInactive(TEntity entity);
+        Task<Response<NoDataDTO>> SetStatus(TEntity entity, DataStatus dataStatus);
         /// <summary>
         /// Veri silme işlemidir. Geriye data dönmez.
         /// 204 durum kodu =>  No Content  => Response body'sinde hiç bir data  olmayacak.
