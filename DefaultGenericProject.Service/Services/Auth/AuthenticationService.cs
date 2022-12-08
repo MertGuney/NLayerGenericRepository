@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DefaultGenericProject.Service.Services
+namespace DefaultGenericProject.Service.Services.Auth
 {
     public class AuthenticationService : IAuthenticationService
     {

@@ -2,7 +2,7 @@ using DefaultGenericProject.Core.Configuration;
 using DefaultGenericProject.Data;
 using DefaultGenericProject.Data.Seeds;
 using DefaultGenericProject.Service.Filters;
-using DefaultGenericProject.Service.Services;
+using DefaultGenericProject.Service.Services.Auth;
 using DefaultGenericProject.Service.Validations;
 using DefaultGenericProject.WebApi.Extensions;
 using FluentValidation.AspNetCore;

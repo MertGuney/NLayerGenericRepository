@@ -7,6 +7,7 @@ using DefaultGenericProject.Data.Repositories;
 using DefaultGenericProject.Data.Repositories.Users;
 using DefaultGenericProject.Data.UnitOfWorks;
 using DefaultGenericProject.Service.Services;
+using DefaultGenericProject.Service.Services.Auth;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DefaultGenericProject.WebApi.Extensions
