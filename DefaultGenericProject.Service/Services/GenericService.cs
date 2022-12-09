@@ -2,7 +2,6 @@
 using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
-using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
