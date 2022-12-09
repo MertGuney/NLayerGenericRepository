@@ -1,4 +1,5 @@
-﻿using DefaultGenericProject.Core.DTOs.Users;
+﻿using DefaultGenericProject.Core.DTOs.Paging;
+using DefaultGenericProject.Core.DTOs.Users;
 using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.StringInfos;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,14 @@ namespace DefaultGenericProject.WebApi.Controllers
         {
             return ActionResultInstance(await _userService.GetAllAsync());
         }
+
+        [HttpGet]
+        [Route("Search")]
+        public IActionResult GetAll(PagingParamaterDTO pagingParamaterDTO)
+        {
+            return ActionResultInstance(_userService.GetAll(pagingParamaterDTO));
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)

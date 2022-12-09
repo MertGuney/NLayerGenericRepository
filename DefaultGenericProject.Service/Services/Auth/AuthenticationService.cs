@@ -62,10 +62,11 @@ namespace DefaultGenericProject.Service.Services.Auth
             {
                 await _userRefreshTokenRepository.AddAsync(new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration });
             }
-            else
+            else if (userRefreshToken.Expiration < DateTime.UtcNow)
             {
                 userRefreshToken.Code = token.RefreshToken;
                 userRefreshToken.Expiration = token.RefreshTokenExpiration;
+                _userRefreshTokenRepository.Update(userRefreshToken);
             }
             await _unitOfWork.CommmitAsync();
 
@@ -86,19 +87,13 @@ namespace DefaultGenericProject.Service.Services.Auth
         public async Task<Response<TokenDTO>> CreateTokenByRefreshToken(string refreshToken)
         {
             var existRefreshToken = await _userRefreshTokenRepository.Where(x => x.Code == refreshToken).SingleOrDefaultAsync();
-            if (existRefreshToken == null)
-            {
-                return Response<TokenDTO>.Fail("Refresh token not found", 404, true);
-            }
+            if (existRefreshToken == null) return Response<TokenDTO>.Fail("Refresh token not found", 404, true);
+
             var user = await _userRepository.GetByIdAsync(existRefreshToken.UserId);
-            if (user == null)
-            {
-                return Response<TokenDTO>.Fail("User not found", 404, true);
-            }
+            if (user == null) return Response<TokenDTO>.Fail("User not found", 404, true);
+
             var tokenDTO = _tokenService.CreateToken(user);
-            existRefreshToken.Code = tokenDTO.RefreshToken;
-            existRefreshToken.Expiration = tokenDTO.RefreshTokenExpiration;
-            await _unitOfWork.CommmitAsync();
+
             return Response<TokenDTO>.Success(tokenDTO, 200);
         }
 

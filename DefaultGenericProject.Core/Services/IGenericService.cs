@@ -1,4 +1,5 @@
-﻿using DefaultGenericProject.Core.DTOs.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Paging;
+using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using System;
@@ -28,6 +29,13 @@ namespace DefaultGenericProject.Core.Services
         /// </summary>
         /// <returns></returns>
         Response<IQueryable<TEntity>> GetAll(DataStatus? dataStatus = DataStatus.Active);
+        /// <summary>
+        /// Sayfalama ile tüm verileri getirme işlemi.
+        /// </summary>
+        /// <param name="pagingParamaterDTO"></param>
+        /// <param name="dataStatus"></param>
+        /// <returns></returns>
+        Response<PagingResponseDTO<TEntity>> GetAll(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye DTO data döner.
         /// </summary>

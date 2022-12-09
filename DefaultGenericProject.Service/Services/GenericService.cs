@@ -1,6 +1,8 @@
-﻿using DefaultGenericProject.Core.DTOs.Responses;
+﻿using DefaultGenericProject.Core.DTOs.Paging;
+using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
+using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
@@ -67,6 +69,17 @@ namespace DefaultGenericProject.Service.Services
                 return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
             }
             return Response<IQueryable<TEntity>>.Success(results, 200);
+        }
+
+        public Response<PagingResponseDTO<TEntity>> GetAll(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active)
+        {
+            var results = ObjectMapper.Mapper.Map<IQueryable<TEntity>>(_genericRepository.GetAll(dataStatus));
+            if (results == null)
+            {
+                return Response<PagingResponseDTO<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
+            }
+            var response = PagedList<TEntity>.GetValues(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
+            return Response<PagingResponseDTO<TEntity>>.Success(response, 200);
         }
 
         public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)

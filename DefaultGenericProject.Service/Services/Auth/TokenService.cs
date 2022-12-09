@@ -60,9 +60,6 @@ namespace DefaultGenericProject.Service.Services.Auth
 
         public ClientTokenDTO CreateTokenByClient(Client client)
         {
-            var hasClient = _clients.Where(x => x.Id == client.Id).FirstOrDefault();
-            if (hasClient == null) throw new Exception("Client bulunamadı.");
-
             var accessTokenExpiration = DateTime.Now.AddMinutes(_customTokenOption.AccessTokenExpiration);
             var securityKey = SignService.GetSymmetricSecurityKey(_customTokenOption.SecurityKey);
 
