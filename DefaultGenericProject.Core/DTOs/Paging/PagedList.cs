@@ -1,9 +1,8 @@
-﻿using DefaultGenericProject.Core.DTOs.Paging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DefaultGenericProject.Core.Services
+namespace DefaultGenericProject.Core.DTOs.Paging
 {
     public class PagedList<T> : List<T>
     {
