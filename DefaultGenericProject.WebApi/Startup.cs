@@ -2,6 +2,7 @@ using DefaultGenericProject.Core.Configuration;
 using DefaultGenericProject.Data;
 using DefaultGenericProject.Data.Seeds;
 using DefaultGenericProject.Service.Filters;
+using DefaultGenericProject.Service.Hubs;
 using DefaultGenericProject.Service.Services.Auth;
 using DefaultGenericProject.Service.Validations;
 using DefaultGenericProject.WebApi.Extensions;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +45,8 @@ namespace DefaultGenericProject.WebApi
                 opts.UseSqlServer(Configuration.GetConnectionString("LocalDb"));
                 //opts.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
             });
+
+            services.AddSignalR();
 
             services.Configure<List<Client>>(Configuration.GetSection("Clients"));
             services.Configure<CustomTokenOption>(Configuration.GetSection("TokenOption"));
@@ -120,6 +122,7 @@ namespace DefaultGenericProject.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
