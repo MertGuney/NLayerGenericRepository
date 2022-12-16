@@ -72,7 +72,7 @@ namespace DefaultGenericProject.Service.Services
 
         public Response<PagingResponseDTO<TEntity>> GetAll(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active)
         {
-            var results = ObjectMapper.Mapper.Map<IQueryable<TEntity>>(_genericRepository.GetAll(dataStatus));
+            var results = _genericRepository.GetAll(dataStatus);
             if (results == null)
             {
                 return Response<PagingResponseDTO<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
