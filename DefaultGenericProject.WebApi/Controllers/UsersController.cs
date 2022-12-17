@@ -29,9 +29,9 @@ namespace DefaultGenericProject.WebApi.Controllers
 
         [HttpGet]
         [Route("Search")]
-        public IActionResult GetAll(PagingParamaterDTO pagingParamaterDTO)
+        public IActionResult GetAll([FromQuery] PagingParamaterDTO pagingParamaterDTO)
         {
-            return ActionResultInstance(_userService.GetAll(pagingParamaterDTO));
+            return ActionResultInstance(_userService.GetAll<UserDTO>(pagingParamaterDTO));
         }
 
 

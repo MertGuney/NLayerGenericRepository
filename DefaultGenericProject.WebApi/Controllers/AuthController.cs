@@ -1,6 +1,7 @@
 ﻿using DefaultGenericProject.Core.DTOs.Logins;
 using DefaultGenericProject.Core.DTOs.Tokens;
 using DefaultGenericProject.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace DefaultGenericProject.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : CustomBaseController
     {
         private readonly IAuthenticationService _authenticationService;

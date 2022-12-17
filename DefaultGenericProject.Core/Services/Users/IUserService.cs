@@ -8,8 +8,8 @@ namespace DefaultGenericProject.Core.Services.Users
 {
     public interface IUserService : IGenericService<User>
     {
-        Task<Response<AppUserDTO>> GetUserByNameAsync(string userName);
-        Task<Response<AppUserDTO>> GetUserByEmailAsync(string userName);
+        Task<Response<UserDTO>> GetUserByNameAsync(string userName);
+        Task<Response<UserDTO>> GetUserByEmailAsync(string userName);
         Task<Response<NoDataDTO>> UpdateUserAsync(UpdateUserDTO updateUserDTO);
         Task<Response<NoDataDTO>> DeleteUserAsync(Guid id);
         Task<Response<NoDataDTO>> IsUnique(string username, string email);

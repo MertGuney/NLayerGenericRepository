@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DefaultGenericProject.Core.DTOs.Paging;
+using DefaultGenericProject.Service.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DefaultGenericProject.Core.DTOs.Paging
+namespace DefaultGenericProject.Service.Services.Helpers
 {
     public class PagedList<T> : List<T>
     {
@@ -24,11 +26,11 @@ namespace DefaultGenericProject.Core.DTOs.Paging
             Data = items;
         }
 
-        public static PagingResponseDTO<T> GetValues(IQueryable<T> source, int pageNumber, int pageSize)
+        public static PagingResponseDTO<TDTO> GetValues<TDTO>(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagingResponseDTO<T>
+            var items = ObjectMapper.Mapper.Map<List<TDTO>>(source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList());
+            return new PagingResponseDTO<TDTO>
             {
                 TotalCount = count,
                 PageSize = pageSize,

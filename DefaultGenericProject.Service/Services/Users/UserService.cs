@@ -57,25 +57,25 @@ namespace DefaultGenericProject.Service.Services
             return Response<NoDataDTO>.Success(204);
         }
 
-        public async Task<Response<AppUserDTO>> GetUserByEmailAsync(string email)
+        public async Task<Response<UserDTO>> GetUserByEmailAsync(string email)
         {
             var user = await _userRepository.Where(x => x.Email == email).FirstOrDefaultAsync();
             if (user == null)
             {
-                return Response<AppUserDTO>.Fail("Email bulunamadı.", 404, true);
+                return Response<UserDTO>.Fail("Email bulunamadı.", 404, true);
             }
-            var userMap = ObjectMapper.Mapper.Map<AppUserDTO>(user);
-            return Response<AppUserDTO>.Success(userMap, 200);
+            var userMap = ObjectMapper.Mapper.Map<UserDTO>(user);
+            return Response<UserDTO>.Success(userMap, 200);
         }
 
-        public async Task<Response<AppUserDTO>> GetUserByNameAsync(string username)
+        public async Task<Response<UserDTO>> GetUserByNameAsync(string username)
         {
             var user = await _userRepository.Where(x => x.Username == username).FirstOrDefaultAsync();
             if (user == null)
             {
-                return Response<AppUserDTO>.Fail("Kullanıcı adı bulunamadı.", 404, true);
+                return Response<UserDTO>.Fail("Kullanıcı adı bulunamadı.", 404, true);
             }
-            return Response<AppUserDTO>.Success(ObjectMapper.Mapper.Map<AppUserDTO>(user), 200);
+            return Response<UserDTO>.Success(ObjectMapper.Mapper.Map<UserDTO>(user), 200);
         }
 
         public async Task<Response<NoDataDTO>> IsUnique(string username, string email)

@@ -6,6 +6,7 @@ using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
+using DefaultGenericProject.Service.Services.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,6 @@ namespace DefaultGenericProject.Service.Services
 
         public async Task<Response<TEntity>> AddAsync(TEntity entity)
         {
-            if (entity == null)
-            {
-                return Response<TEntity>.Fail("Model boş olamaz.", 400, true);
-            }
             var newEntity = ObjectMapper.Mapper.Map<TEntity>(entity);
 
             await _genericRepository.AddAsync(newEntity);
@@ -39,20 +36,16 @@ namespace DefaultGenericProject.Service.Services
 
             var newDTO = ObjectMapper.Mapper.Map<TEntity>(newEntity);
 
-            return Response<TEntity>.Success(newDTO, 200);
+            return Response<TEntity>.Success(newDTO, 201);
         }
 
         public async Task<Response<IEnumerable<TEntity>>> AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            if (entities == null)
-            {
-                return Response<IEnumerable<TEntity>>.Fail("Model boş olamaz.", 400, true);
-            }
             var newEntities = ObjectMapper.Mapper.Map<List<TEntity>>(entities);
             await _genericRepository.AddRangeAsync(newEntities);
             await _unitOfWork.CommmitAsync();
             var newDTOs = ObjectMapper.Mapper.Map<List<TEntity>>(newEntities);
-            return Response<IEnumerable<TEntity>>.Success(newDTOs, 204);
+            return Response<IEnumerable<TEntity>>.Success(newDTOs, 201);
         }
 
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
@@ -65,20 +58,20 @@ namespace DefaultGenericProject.Service.Services
             var results = ObjectMapper.Mapper.Map<IQueryable<TEntity>>(_genericRepository.GetAll(dataStatus));
             if (results == null)
             {
-                return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
+                return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
             }
             return Response<IQueryable<TEntity>>.Success(results, 200);
         }
 
-        public Response<PagingResponseDTO<TEntity>> GetAll(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active)
+        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active)
         {
             var results = _genericRepository.GetAll(dataStatus);
             if (results == null)
             {
-                return Response<PagingResponseDTO<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
+                return Response<PagingResponseDTO<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
             }
-            var response = PagedList<TEntity>.GetValues(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
-            return Response<PagingResponseDTO<TEntity>>.Success(response, 200);
+            var response = PagedList<TEntity>.GetValues<TDTO>(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
+            return Response<PagingResponseDTO<TDTO>>.Success(response, 200);
         }
 
         public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
@@ -86,7 +79,7 @@ namespace DefaultGenericProject.Service.Services
             var results = ObjectMapper.Mapper.Map<List<TEntity>>(await _genericRepository.GetAllAsync(dataStatus));
             if (results == null)
             {
-                return Response<IEnumerable<TEntity>>.Fail("Sonuç bulunamadı.", 400, true);
+                return Response<IEnumerable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
             }
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
@@ -128,10 +121,6 @@ namespace DefaultGenericProject.Service.Services
 
         public async Task<Response<NoDataDTO>> RemoveRangeAsync(IEnumerable<TEntity> entities)
         {
-            if (entities == null)
-            {
-                return Response<NoDataDTO>.Fail("Model boş olamaz.", 400, true);
-            }
             var newEntities = ObjectMapper.Mapper.Map<List<TEntity>>(entities);
             _genericRepository.RemoveRange(newEntities);
             await _unitOfWork.CommmitAsync();

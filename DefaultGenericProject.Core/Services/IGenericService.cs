@@ -35,7 +35,7 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="pagingParamaterDTO"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<PagingResponseDTO<TEntity>> GetAll(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active);
+        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye DTO data döner.
         /// </summary>

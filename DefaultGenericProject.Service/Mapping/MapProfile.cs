@@ -14,13 +14,13 @@ namespace DefaultGenericProject.Service.Mapping
         {
             CreateMap<Product, ProductDTO>().ReverseMap();
             #region Users
-            CreateMap<User, AppUserDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
             CreateMap<User, UpdateUserDTO>().ReverseMap();
             CreateMap<User, LoginResponseDTO>().ReverseMap();
 
-            CreateMap<AppUserDTO, CreateUserDTO>().ReverseMap();
-            CreateMap<AppUserDTO, UpdateUserDTO>().ReverseMap();
+            CreateMap<UserDTO, CreateUserDTO>().ReverseMap();
+            CreateMap<UserDTO, UpdateUserDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<UserRole, UserRoleDTO>().ReverseMap();

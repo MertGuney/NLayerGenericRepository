@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,8 +43,7 @@ namespace DefaultGenericProject.WebApi
 
             services.AddDbContext<AppDbContext>(opts =>
             {
-                opts.UseSqlServer(Configuration.GetConnectionString("LocalDb"));
-                //opts.UseSqlServer(Configuration.GetConnectionString("DefaultDb"));
+                opts.UseSqlServer(Configuration.GetConnectionString("db"));
             });
 
             services.AddSignalR();
@@ -79,7 +79,7 @@ namespace DefaultGenericProject.WebApi
 
             services.AddControllers(x =>
             {
-                //x.Filters.Add(new AuthorizeFilter());
+                x.Filters.Add(new AuthorizeFilter());
                 x.Filters.Add(new ValidateFilterAttribute());
             }).AddFluentValidation(opts =>
             {
@@ -88,10 +88,7 @@ namespace DefaultGenericProject.WebApi
 
             services.AddCustomValidationResponse();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DefaultGenericProject.WebApi", Version = "v1" });
-            });
+            services.ConfigureSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,14 +97,14 @@ namespace DefaultGenericProject.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "DefaultGenericProject.WebApi v1");
-                    c.RoutePrefix = "docs";
-                });
                 SeedData.Seed(app.ApplicationServices); // Geliþtirme aþamasýnda seed data oluþturma.
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DefaultGenericProject.WebApi v1");
+                c.RoutePrefix = "docs";
+            });
 
             app.UseCustomException();
 
