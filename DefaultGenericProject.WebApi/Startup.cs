@@ -33,11 +33,14 @@ namespace DefaultGenericProject.WebApi
         }
 
         public IConfiguration Configuration { get; }
+        private readonly string _policyName = "CorsPolicy";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDependencies();
+            services.ConfigureCors(_policyName);
+
+            services.ConfigureDependencies();
 
             services.AddHttpContextAccessor();
 
@@ -48,28 +51,9 @@ namespace DefaultGenericProject.WebApi
 
             services.AddSignalR();
 
-            services.Configure<List<Client>>(Configuration.GetSection("Clients"));
-            services.Configure<CustomTokenOption>(Configuration.GetSection("TokenOption"));
+            services.ConfigureSection(Configuration);
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
-            {
-                var tokenOptions = Configuration.GetSection("TokenOption").Get<CustomTokenOption>();
-                opts.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidIssuer = tokenOptions.Issuer,
-                    ValidAudience = tokenOptions.Audience[0],
-                    IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
-                    ValidateIssuerSigningKey = true,
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            services.ConfigureAuthentication(Configuration);
 
             services.AddDataProtection().UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
             {
@@ -111,7 +95,7 @@ namespace DefaultGenericProject.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(_policyName);
             app.UseAuthentication();
 
             app.UseAuthorization();

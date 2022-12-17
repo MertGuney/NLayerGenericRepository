@@ -1,4 +1,5 @@
-﻿using DefaultGenericProject.Core.Repositories;
+﻿using DefaultGenericProject.Core.Configuration;
+using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Repositories.Users;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.Services.Users;
@@ -9,15 +10,18 @@ using DefaultGenericProject.Data.UnitOfWorks;
 using DefaultGenericProject.Service.Services;
 using DefaultGenericProject.Service.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Collections.Generic;
 
 namespace DefaultGenericProject.WebApi.Extensions
 {
     public static class CustomExtension
     {
-        public static void AddDependencies(this IServiceCollection services)
+        public static void ConfigureDependencies(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<ICipherService, CipherService>();
@@ -36,6 +40,43 @@ namespace DefaultGenericProject.WebApi.Extensions
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
+        }
+        public static void ConfigureCors(this IServiceCollection services, string policyName)
+        {
+            services.AddCors(opts =>
+            {
+                opts.AddPolicy(policyName, builder =>
+                {
+                    builder.WithOrigins("http://127.0.0.1:4000", "https://izmirteknoloji.com.tr").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
+            });
+        }
+        public static void ConfigureSection(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<List<Client>>(configuration.GetSection("Clients"));
+            services.Configure<CustomTokenOption>(configuration.GetSection("TokenOption"));
+        }
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opts =>
+            {
+                var tokenOptions = configuration.GetSection("TokenOption").Get<CustomTokenOption>();
+                opts.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience[0],
+                    IssuerSigningKey = SignService.GetSymmetricSecurityKey(tokenOptions.SecurityKey),
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         }
         public static void ConfigureSwagger(this IServiceCollection services)
         {
