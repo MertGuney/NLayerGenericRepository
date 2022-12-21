@@ -21,6 +21,7 @@ namespace DefaultGenericProject.Core.Repositories
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         TEntity Update(TEntity entity);
         TEntity UpdateEntryState(TEntity entity);
+        void SetInactive(TEntity entity);
         void SetStatus(TEntity entity, DataStatus dataStatus);
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);

@@ -10,43 +10,43 @@ using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Data.Repositories
 {
-    public class GenericRepository<Tentity> : IGenericRepository<Tentity> where Tentity : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
         protected readonly AppDbContext _context;
-        private readonly DbSet<Tentity> _dbSet;
+        private readonly DbSet<TEntity> _dbSet;
 
         public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<Tentity>();
+            _dbSet = context.Set<TEntity>();
         }
 
-        public async Task AddAsync(Tentity entity)
+        public async Task AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task AddRangeAsync(IEnumerable<Tentity> entities)
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
             await _dbSet.AddRangeAsync(entities);
         }
 
-        public async Task<bool> AnyAsync(Expression<Func<Tentity, bool>> expression)
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
         {
             return await _dbSet.AnyAsync(expression);
         }
 
-        public IQueryable<Tentity> GetAll(DataStatus? dataStatus = DataStatus.Active)
+        public IQueryable<TEntity> GetAll(DataStatus? dataStatus = DataStatus.Active)
         {
             return _dbSet.Where(x => x.Status == dataStatus).AsNoTracking().AsQueryable();
         }
 
-        public async Task<IEnumerable<Tentity>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
         {
             return await _dbSet.Where(x => x.Status == dataStatus).ToListAsync();
         }
 
-        public Tentity GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
+        public TEntity GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
             var entity = _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefault();
             if (entity != null)
@@ -56,7 +56,7 @@ namespace DefaultGenericProject.Data.Repositories
             return entity;
         }
 
-        public async Task<Tentity> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
+        public async Task<TEntity> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
         {
             var entity = await _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefaultAsync();
             if (entity != null)
@@ -66,43 +66,50 @@ namespace DefaultGenericProject.Data.Repositories
             return entity;
         }
 
-        public IQueryable<Tentity> Include(Expression<Func<Tentity, object>> expression)
+        public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> expression)
         {
             return _dbSet.Include(expression);
         }
 
-        public void Remove(Tentity entity)
+        public void Remove(TEntity entity)
         {
             _dbSet.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<Tentity> entities)
+        public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _dbSet.RemoveRange(entities);
         }
 
-        public void SetStatus(Tentity entity, DataStatus dataStatus)
+        public void SetStatus(TEntity entity, DataStatus dataStatus)
         {
             entity.UpdatedDate = DateTime.Now;
             entity.Status = dataStatus;
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public Tentity Update(Tentity entity)
+        public void SetInactive(TEntity entity)
+        {
+            entity.UpdatedDate = DateTime.Now;
+            entity.Status = DataStatus.Inactive;
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public TEntity Update(TEntity entity)
         {
             entity.UpdatedDate = DateTime.Now;
             _context.Update(entity);
             return entity;
         }
 
-        public Tentity UpdateEntryState(Tentity entity)
+        public TEntity UpdateEntryState(TEntity entity)
         {
             entity.UpdatedDate = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
             return entity;
         }
 
-        public IQueryable<Tentity> Where(Expression<Func<Tentity, bool>> predicate)
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.Where(predicate);
         }
