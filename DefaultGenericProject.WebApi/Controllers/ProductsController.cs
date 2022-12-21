@@ -1,4 +1,5 @@
 ﻿using DefaultGenericProject.Core.DTOs;
+using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Services;
@@ -24,10 +25,17 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             return ActionResultInstance(await _genericService.GetAllAsync());
         }
+
+        [HttpGet("Search")]
+        public IActionResult GetAll(PagingParamaterDTO pagingParamaterDTO)
+        {
+            return ActionResultInstance(_genericService.GetAll<ProductDTO>(pagingParamaterDTO, x => x.Name.Contains(pagingParamaterDTO.Search)));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {

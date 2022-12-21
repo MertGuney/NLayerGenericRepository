@@ -26,6 +26,20 @@ namespace DefaultGenericProject.Service.Services.Helpers
             Data = items;
         }
 
+        public static PagingResponseDTO<T> GetValues(IQueryable<T> source, int pageNumber, int pageSize)
+        {
+            var count = source.Count();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            return new PagingResponseDTO<T>
+            {
+                TotalCount = count,
+                PageSize = pageSize,
+                CurrentPage = pageNumber,
+                TotalPages = (int)Math.Ceiling(count / (double)pageSize),
+                Values = items
+            };
+        }
+
         public static PagingResponseDTO<TDTO> GetValues<TDTO>(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();

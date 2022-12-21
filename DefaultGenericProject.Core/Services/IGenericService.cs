@@ -56,12 +56,14 @@ namespace DefaultGenericProject.Core.Services
         /// <returns></returns>
         Response<IQueryable<TDTO>> GetAll<TDTO>(DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
-        /// Sayfalama ile tüm verileri getirme işlemi.
+        /// Sayfalama ile tüm verileri getirme işlemi. Aramak istediğiniz sorguyu parametre olarak linq ile sorgulamanız gerekmektedir.
         /// </summary>
+        /// <typeparam name="TDTO"></typeparam>
         /// <param name="pagingParamaterDTO"></param>
+        /// <param name="predicate"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active);
+        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, DataStatus? dataStatus = DataStatus.Active);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye Entity Listesi Döner.
         /// </summary>

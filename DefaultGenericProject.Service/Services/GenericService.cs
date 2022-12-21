@@ -1,7 +1,9 @@
 ﻿using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.DTOs.Responses;
+using DefaultGenericProject.Core.DTOs.Users;
 using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
+using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
@@ -84,12 +86,21 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TDTO>>.Success(resultsMap, 200);
         }
 
-        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, DataStatus? dataStatus = DataStatus.Active)
+        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, DataStatus? dataStatus = DataStatus.Active)
         {
             var results = _genericRepository.GetAll(dataStatus);
             if (results == null)
             {
                 return Response<PagingResponseDTO<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
+            }
+            PagingResponseDTO<TDTO> result;
+            if (pagingParamaterDTO.Search != null)
+            {
+                result = PagedList<TEntity>.GetValues<TDTO>(results.Where(predicate).OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
+            }
+            else
+            {
+                result = PagedList<TEntity>.GetValues<TDTO>(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
             }
             var response = PagedList<TEntity>.GetValues<TDTO>(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
             return Response<PagingResponseDTO<TDTO>>.Success(response, 200);
