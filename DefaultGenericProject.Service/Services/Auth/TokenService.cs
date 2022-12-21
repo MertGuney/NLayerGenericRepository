@@ -12,8 +12,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Service.Services.Auth
 {
@@ -75,9 +73,9 @@ namespace DefaultGenericProject.Service.Services.Auth
         {
             var userList = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.Username),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName,user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
             };
             var userRoles = _userRoleRepository.Where(x => x.UserId == user.Id).Include(x => x.Role).ToList();
@@ -90,9 +88,9 @@ namespace DefaultGenericProject.Service.Services.Auth
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()),
                 new Claim(ClaimTypes.Role, client.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             claims.AddRange(client.Audiences.Select(x => new Claim(JwtRegisteredClaimNames.Aud, x)));
             return claims;
