@@ -31,7 +31,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpGet("Search")]
-        public IActionResult GetAll(PagingParamaterDTO pagingParamaterDTO)
+        public IActionResult GetAll([FromQuery]PagingParamaterDTO pagingParamaterDTO)
         {
             return ActionResultInstance(_genericService.GetAll<ProductDTO>(pagingParamaterDTO, x => x.Name.Contains(pagingParamaterDTO.Search)));
         }

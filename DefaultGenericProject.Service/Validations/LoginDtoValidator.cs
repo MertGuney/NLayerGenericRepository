@@ -8,7 +8,7 @@ namespace DefaultGenericProject.Service.Validations
         public LoginDTOValidator()
         {
             RuleFor(x => x.Email).EmailAddress().WithMessage("Email formatına uygun değil.").NotEmpty().WithMessage("Email boş geçilemez.");
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Şifre boş geçilemez.");
+            RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage("Şifre boş geçilemez.");
         }
     }
 }
