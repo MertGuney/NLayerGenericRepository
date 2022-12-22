@@ -90,6 +90,8 @@ namespace DefaultGenericProject.WebApi
                 c.RoutePrefix = "docs";
             });
 
+            app.UseStaticFiles();
+
             app.UseCustomException();
 
             app.UseHttpsRedirection();
