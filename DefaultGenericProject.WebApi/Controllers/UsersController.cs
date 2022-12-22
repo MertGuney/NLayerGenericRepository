@@ -31,7 +31,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         [Route("Search")]
         public IActionResult GetAll([FromQuery] PagingParamaterDTO pagingParamaterDTO)
         {
-            return ActionResultInstance(_userService.GetAll<UserDTO>(pagingParamaterDTO));
+            return ActionResultInstance(_userService.GetAll<UserDTO>(pagingParamaterDTO, x => x.Email.Contains(pagingParamaterDTO.Search)));
         }
 
 
