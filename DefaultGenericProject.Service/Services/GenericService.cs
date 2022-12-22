@@ -102,8 +102,7 @@ namespace DefaultGenericProject.Service.Services
             {
                 result = PagedList<TEntity>.GetValues<TDTO>(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
             }
-            var response = PagedList<TEntity>.GetValues<TDTO>(results.OrderBy(x => x.CreatedDate), pagingParamaterDTO.PageNumber, pagingParamaterDTO.PageSize);
-            return Response<PagingResponseDTO<TDTO>>.Success(response, 200);
+            return Response<PagingResponseDTO<TDTO>>.Success(result, 200);
         }
 
         public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
