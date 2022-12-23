@@ -31,7 +31,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         }
 
         [HttpGet("Search")]
-        public IActionResult GetAll([FromQuery]PagingParamaterDTO pagingParamaterDTO)
+        public IActionResult GetAll([FromQuery] PagingParamaterDTO pagingParamaterDTO)
         {
             return ActionResultInstance(_genericService.GetAll<ProductDTO>(pagingParamaterDTO, x => x.Name.Contains(pagingParamaterDTO.Search)));
         }
@@ -57,7 +57,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         [Authorize(Roles = RoleInfo.ProductRemove)]
         public async Task<IActionResult> Remove(ProductDTO productDTO)
         {
-            return ActionResultInstance(await _genericService.SetStatus(ObjectMapper.Mapper.Map<Product>(productDTO), DataStatus.Inactive));
+            return ActionResultInstance(await _genericService.SetStatus(productDTO.Id, DataStatus.Inactive));
         }
     }
 }

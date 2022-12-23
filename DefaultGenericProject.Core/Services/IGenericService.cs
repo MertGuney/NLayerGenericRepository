@@ -158,7 +158,7 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="entity"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<NoDataDTO>> SetStatus(TEntity entity, DataStatus dataStatus);
+        Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus dataStatus);
         /// <summary>
         /// Verilen ID verisinden entity nesnesini bulup status durumunu inactive yapar.
         /// </summary>
