@@ -191,15 +191,15 @@ namespace DefaultGenericProject.Service.Services
             return Response<NoDataDTO>.Success(204);
         }
 
-        public async Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus dataStatus)
+        public async Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus oldStatus, DataStatus newStatus)
         {
-            var isExistEntity = await _genericRepository.GetByIdAsync(id);
+            var isExistEntity = await _genericRepository.GetByIdAsync(id, oldStatus);
             if (isExistEntity == null)
             {
                 return Response<NoDataDTO>.Fail("Sonuç bulunamadı.", 404, true);
             }
 
-            _genericRepository.SetStatus(isExistEntity, dataStatus);
+            _genericRepository.SetStatus(isExistEntity, newStatus);
             await _unitOfWork.CommmitAsync();
 
             return Response<NoDataDTO>.Success(204);

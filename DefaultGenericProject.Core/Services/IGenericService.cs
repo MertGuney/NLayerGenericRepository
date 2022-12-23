@@ -153,12 +153,12 @@ namespace DefaultGenericProject.Core.Services
         /// <returns></returns>
         Task<Response<NoDataDTO>> UpdateEntryState(TEntity entity);
         /// <summary>
-        /// Veri durumunu güncelleme işlemidir.
+        /// Veri durumunu güncelleme işlemidir. Eski Status olarak verilen veriyi bulur yeni status ile değiştirir.
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus dataStatus);
+        Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus oldStatus, DataStatus newStatus);
         /// <summary>
         /// Verilen ID verisinden entity nesnesini bulup status durumunu inactive yapar.
         /// </summary>
