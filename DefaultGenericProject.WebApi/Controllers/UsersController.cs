@@ -11,7 +11,6 @@ namespace DefaultGenericProject.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = RoleInfo.Admin)]
     public class UsersController : CustomBaseController
     {
         private readonly IUserService _userService;

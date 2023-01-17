@@ -1,9 +1,9 @@
 ﻿using DefaultGenericProject.Core.DTOs;
 using DefaultGenericProject.Core.DTOs.Paging;
-using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.StringInfos;
+using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,6 @@ namespace DefaultGenericProject.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = RoleInfo.ProductList)]
     public class ProductsController : CustomBaseController
     {
         private readonly IGenericService<Product> _genericService;
@@ -52,12 +51,6 @@ namespace DefaultGenericProject.WebApi.Controllers
         public async Task<IActionResult> Put(ProductDTO productDTO)
         {
             return ActionResultInstance(await _genericService.Update(ObjectMapper.Mapper.Map<Product>(productDTO)));
-        }
-        [HttpDelete]
-        [Authorize(Roles = RoleInfo.ProductRemove)]
-        public async Task<IActionResult> Remove(ProductDTO productDTO)
-        {
-            return ActionResultInstance(await _genericService.SetStatus(productDTO.Id, DataStatus.Active, DataStatus.Inactive));
         }
     }
 }

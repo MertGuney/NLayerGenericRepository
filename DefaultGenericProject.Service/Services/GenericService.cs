@@ -1,9 +1,6 @@
 ﻿using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.DTOs.Responses;
-using DefaultGenericProject.Core.DTOs.Users;
-using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
-using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
@@ -65,9 +62,9 @@ namespace DefaultGenericProject.Service.Services
             return await _genericRepository.AnyAsync(expression);
         }
 
-        public Response<IQueryable<TEntity>> GetAll(DataStatus? dataStatus = DataStatus.Active)
+        public Response<IQueryable<TEntity>> GetAll()
         {
-            var results = _genericRepository.GetAll(dataStatus);
+            var results = _genericRepository.GetAll();
             if (results == null)
             {
                 return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -75,9 +72,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TEntity>>.Success(results, 200);
         }
 
-        public Response<IQueryable<TDTO>> GetAll<TDTO>(DataStatus? dataStatus = DataStatus.Active)
+        public Response<IQueryable<TDTO>> GetAll<TDTO>()
         {
-            var results = _genericRepository.GetAll(dataStatus);
+            var results = _genericRepository.GetAll();
             if (results == null)
             {
                 return Response<IQueryable<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -86,9 +83,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TDTO>>.Success(resultsMap, 200);
         }
 
-        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, DataStatus? dataStatus = DataStatus.Active)
+        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate)
         {
-            var results = _genericRepository.GetAll(dataStatus);
+            var results = _genericRepository.GetAll();
             if (results == null)
             {
                 return Response<PagingResponseDTO<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -105,9 +102,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<PagingResponseDTO<TDTO>>.Success(result, 200);
         }
 
-        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
+        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync()
         {
-            var results = await _genericRepository.GetAllAsync(dataStatus);
+            var results = await _genericRepository.GetAllAsync();
             if (results == null)
             {
                 return Response<IEnumerable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -115,9 +112,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public async Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>(DataStatus? dataStatus = DataStatus.Active)
+        public async Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>()
         {
-            var results = await _genericRepository.GetAllAsync(dataStatus);
+            var results = await _genericRepository.GetAllAsync();
             if (results == null)
             {
                 return Response<IEnumerable<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -126,9 +123,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TDTO>>.Success(resultsMap, 200);
         }
 
-        public Response<TEntity> GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
+        public Response<TEntity> GetById(Guid id)
         {
-            var result = _genericRepository.GetById(id, dataStatus);
+            var result = _genericRepository.GetById(id);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -136,9 +133,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(result, 200);
         }
 
-        public Response<TDTO> GetById<TDTO>(Guid id, DataStatus? dataStatus = DataStatus.Active) where TDTO : class
+        public Response<TDTO> GetById<TDTO>(Guid id) where TDTO : class
         {
-            var result = _genericRepository.GetById(id, dataStatus);
+            var result = _genericRepository.GetById(id);
             if (result == null)
             {
                 return Response<TDTO>.Fail("Sonuç bulunamadı.", 404, true);
@@ -147,9 +144,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TDTO>.Success(resultMap, 200);
         }
 
-        public async Task<Response<TEntity>> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
+        public async Task<Response<TEntity>> GetByIdAsync(Guid id)
         {
-            var result = await _genericRepository.GetByIdAsync(id, dataStatus);
+            var result = await _genericRepository.GetByIdAsync(id);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -157,9 +154,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(result, 200);
         }
 
-        public async Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id, DataStatus? dataStatus = DataStatus.Active) where TDTO : class
+        public async Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id) where TDTO : class
         {
-            var result = await _genericRepository.GetByIdAsync(id, dataStatus);
+            var result = await _genericRepository.GetByIdAsync(id);
             if (result == null)
             {
                 return Response<TDTO>.Fail("Sonuç bulunamadı.", 404, true);
@@ -188,20 +185,6 @@ namespace DefaultGenericProject.Service.Services
             var newEntities = ObjectMapper.Mapper.Map<List<TEntity>>(entities);
             _genericRepository.RemoveRange(newEntities);
             await _unitOfWork.CommmitAsync();
-            return Response<NoDataDTO>.Success(204);
-        }
-
-        public async Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus oldStatus, DataStatus newStatus)
-        {
-            var isExistEntity = await _genericRepository.GetByIdAsync(id, oldStatus);
-            if (isExistEntity == null)
-            {
-                return Response<NoDataDTO>.Fail("Sonuç bulunamadı.", 404, true);
-            }
-
-            _genericRepository.SetStatus(isExistEntity, newStatus);
-            await _unitOfWork.CommmitAsync();
-
             return Response<NoDataDTO>.Success(204);
         }
 

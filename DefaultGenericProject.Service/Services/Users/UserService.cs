@@ -1,16 +1,13 @@
 ﻿using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.DTOs.Users;
-using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
-using DefaultGenericProject.Core.Repositories.Users;
 using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Service.Services
@@ -18,9 +15,9 @@ namespace DefaultGenericProject.Service.Services
     public class UserService : GenericService<User>, IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
+        private readonly IGenericRepository<User> _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, repository)
+        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IGenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, repository)
         {
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
@@ -50,7 +47,6 @@ namespace DefaultGenericProject.Service.Services
             {
                 return Response<NoDataDTO>.Fail("Kullanıcı bulunamadı.", 404, true);
             }
-            user.Status = DataStatus.Inactive;
 
             _userRepository.Update(ObjectMapper.Mapper.Map<User>(user));
             _unitOfWork.Commit();

@@ -1,97 +1,56 @@
-﻿using DefaultGenericProject.Core.Enums;
-using DefaultGenericProject.Core.Models;
+﻿using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Data.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        protected readonly AppDbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
+        private readonly AppDbContext _context;
 
         public GenericRepository(AppDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<TEntity>();
         }
 
-        public async Task AddAsync(TEntity entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
+        public DbSet<TEntity> Table => _context.Set<TEntity>();
 
-        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
-        {
-            await _dbSet.AddRangeAsync(entities);
-        }
+        #region Read
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression) => await Table.AnyAsync(expression);
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return await _dbSet.AnyAsync(expression);
-        }
+        public IQueryable<TEntity> GetAll(bool isTracking = true) => isTracking ? Table : Table.AsNoTracking();
 
-        public IQueryable<TEntity> GetAll(DataStatus? dataStatus = DataStatus.Active)
-        {
-            return _dbSet.Where(x => x.Status == dataStatus).AsNoTracking().AsQueryable();
-        }
+        public async Task<IEnumerable<TEntity>> GetAllAsync(bool isTracking = true) => isTracking ? await Table.ToListAsync() : await Table.AsNoTracking().ToListAsync();
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active)
-        {
-            return await _dbSet.Where(x => x.Status == dataStatus).ToListAsync();
-        }
+        public TEntity GetById(Guid id, bool isTracking = true) => isTracking ? Table.Find(id) : Table.AsNoTracking().FirstOrDefault(x => x.Id == id);
 
-        public TEntity GetById(Guid id, DataStatus? dataStatus = DataStatus.Active)
-        {
-            var entity = _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefault();
-            if (entity != null)
-            {
-                _context.Entry(entity).State = EntityState.Detached;
-            }
-            return entity;
-        }
+        public async Task<TEntity> GetByIdAsync(Guid id, bool isTracking = true) => isTracking ? await Table.FindAsync(id) : await Table.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<TEntity> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active)
-        {
-            var entity = await _dbSet.Where(x => x.Id == id && x.Status == dataStatus).FirstOrDefaultAsync();
-            if (entity != null)
-            {
-                _context.Entry(entity).State = EntityState.Detached;
-            }
-            return entity;
-        }
+        public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> expression, bool isTracking = true) => isTracking ? Table.Include(expression).AsQueryable() : Table.AsNoTracking().Include(expression).AsQueryable();
 
-        public IQueryable<TEntity> Include(Expression<Func<TEntity, object>> expression)
-        {
-            return _dbSet.Include(expression);
-        }
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate, bool isTracking = true) => isTracking ? Table.Where(predicate).AsQueryable() : Table.AsNoTracking().Where(predicate).AsQueryable();
+        #endregion
 
-        public void Remove(TEntity entity)
-        {
-            _dbSet.Remove(entity);
-        }
+        #region Write
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            _dbSet.RemoveRange(entities);
-        }
+        public async Task AddAsync(TEntity entity) => await Table.AddAsync(entity);
 
-        public void SetStatus(TEntity entity, DataStatus dataStatus)
-        {
-            entity.UpdatedDate = DateTime.Now;
-            entity.Status = dataStatus;
-            _context.Entry(entity).State = EntityState.Modified;
-        }
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities) => await Table.AddRangeAsync(entities);
+
+        public void Remove(TEntity entity) => Table.Remove(entity);
+
+        public void RemoveRange(IEnumerable<TEntity> entities) => Table.RemoveRange(entities);
 
         public void SetInactive(TEntity entity)
         {
-            entity.UpdatedDate = DateTime.Now;
-            entity.Status = DataStatus.Inactive;
+            entity.RemovedDate = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
         }
 
@@ -108,10 +67,6 @@ namespace DefaultGenericProject.Data.Repositories
             _context.Entry(entity).State = EntityState.Modified;
             return entity;
         }
-
-        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _dbSet.Where(predicate);
-        }
+        #endregion
     }
 }

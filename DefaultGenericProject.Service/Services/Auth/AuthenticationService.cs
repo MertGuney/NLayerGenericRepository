@@ -1,10 +1,9 @@
 ﻿using DefaultGenericProject.Core.Configuration;
-using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.DTOs.Logins;
+using DefaultGenericProject.Core.DTOs.Responses;
 using DefaultGenericProject.Core.DTOs.Tokens;
 using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
-using DefaultGenericProject.Core.Repositories.Users;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
@@ -25,11 +24,11 @@ namespace DefaultGenericProject.Service.Services.Auth
         private readonly List<Client> _clients;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITokenService _tokenService;
-        private readonly IUserRepository _userRepository;
+        private readonly IGenericRepository<User> _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGenericRepository<UserRefreshToken> _userRefreshTokenRepository;
 
-        public AuthenticationService(IOptions<List<Client>> clientOptions, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, ITokenService tokenService, IGenericRepository<UserRefreshToken> userRefreshTokenRepository)
+        public AuthenticationService(IOptions<List<Client>> clientOptions, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor, IGenericRepository<User> userRepository, ITokenService tokenService, IGenericRepository<UserRefreshToken> userRefreshTokenRepository)
         {
             _clients = clientOptions.Value;
             _unitOfWork = unitOfWork;

@@ -1,11 +1,9 @@
 ﻿using DefaultGenericProject.Core.Configuration;
 using DefaultGenericProject.Core.Repositories;
-using DefaultGenericProject.Core.Repositories.Users;
 using DefaultGenericProject.Core.Services;
 using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Data.Repositories;
-using DefaultGenericProject.Data.Repositories.Users;
 using DefaultGenericProject.Data.UnitOfWorks;
 using DefaultGenericProject.Service.Services;
 using DefaultGenericProject.Service.Services.Auth;
@@ -32,7 +30,6 @@ namespace DefaultGenericProject.WebApi.Extensions
 
             #region Users
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
             #endregion
 
             #region Generic

@@ -1,6 +1,5 @@
 ﻿using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.DTOs.Responses;
-using DefaultGenericProject.Core.Enums;
 using DefaultGenericProject.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<TEntity> GetById(Guid id, DataStatus? dataStatus = DataStatus.Active);
+        Response<TEntity> GetById(Guid id);
         /// <summary>
         /// Senkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye TypeParam(class olmalıdır.) Olarak Tanımlanan DTO Nesnesini Döner.
         /// </summary>
@@ -26,14 +25,14 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<TDTO> GetById<TDTO>(Guid id, DataStatus? dataStatus = DataStatus.Active) where TDTO : class;
+        Response<TDTO> GetById<TDTO>(Guid id) where TDTO : class;
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye Entity döner.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<TEntity>> GetByIdAsync(Guid id, DataStatus? dataStatus = DataStatus.Active);
+        Task<Response<TEntity>> GetByIdAsync(Guid id);
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye TypeParam(class olmalıdır.) Olarak Tanımlanan DTO Nesnesini Döner.
         /// </summary>
@@ -41,20 +40,20 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id, DataStatus? dataStatus = DataStatus.Active) where TDTO : class;
+        Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id) where TDTO : class;
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir. IQueryable(Sorgulanabilir) Entity Döner.
         /// </summary>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<IQueryable<TEntity>> GetAll(DataStatus? dataStatus = DataStatus.Active);
+        Response<IQueryable<TEntity>> GetAll();
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir.Geriye TypeParam(class olmalıdır.) IQueryable(Sorgulanabilir) DTO Nesnesini Döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<IQueryable<TDTO>> GetAll<TDTO>(DataStatus? dataStatus = DataStatus.Active);
+        Response<IQueryable<TDTO>> GetAll<TDTO>();
         /// <summary>
         /// Sayfalama ile tüm verileri getirme işlemi. Aramak istediğiniz sorguyu parametre olarak linq ile sorgulamanız gerekmektedir.
         /// </summary>
@@ -63,20 +62,20 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="predicate"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, DataStatus? dataStatus = DataStatus.Active);
+        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye Entity Listesi Döner.
         /// </summary>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TEntity>>> GetAllAsync(DataStatus? dataStatus = DataStatus.Active);
+        Task<Response<IEnumerable<TEntity>>> GetAllAsync();
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye TypeParam(class olmalıdır.) tipinde DTO listesi döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>(DataStatus? dataStatus = DataStatus.Active);
+        Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>();
         /// <summary>
         /// Sorgulama işlemidir. Func Delege alır. Geriye IEnumerable Entity döner.
         /// </summary>
@@ -152,13 +151,6 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <returns></returns>
         Task<Response<NoDataDTO>> UpdateEntryState(TEntity entity);
-        /// <summary>
-        /// Veri durumunu güncelleme işlemidir. Eski Status olarak verilen veriyi bulur yeni status ile değiştirir.
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<Response<NoDataDTO>> SetStatus(Guid id, DataStatus oldStatus, DataStatus newStatus);
         /// <summary>
         /// Verilen ID verisinden entity nesnesini bulup status durumunu inactive yapar.
         /// </summary>

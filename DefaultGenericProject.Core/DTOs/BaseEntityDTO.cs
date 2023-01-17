@@ -1,10 +1,5 @@
-﻿using DefaultGenericProject.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Core.DTOs
 {
@@ -12,8 +7,6 @@ namespace DefaultGenericProject.Core.DTOs
     {
         [JsonIgnore]
         public Guid Id { get; set; }
-        [JsonIgnore]
-        public DataStatus Status { get; set; } = DataStatus.Active;
         [JsonIgnore]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         [JsonIgnore]
