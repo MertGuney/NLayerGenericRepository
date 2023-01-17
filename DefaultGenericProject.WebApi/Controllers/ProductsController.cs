@@ -1,8 +1,8 @@
-﻿using DefaultGenericProject.Core.DTOs;
+﻿using DefaultGenericProject.Core.Constants;
+using DefaultGenericProject.Core.DTOs;
 using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.Models;
 using DefaultGenericProject.Core.Services;
-using DefaultGenericProject.Core.StringInfos;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Authorization;
@@ -17,16 +17,25 @@ namespace DefaultGenericProject.WebApi.Controllers
     public class ProductsController : CustomBaseController
     {
         private readonly IGenericService<Product> _genericService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductsController(IGenericService<Product> genericService)
+        public ProductsController(IGenericService<Product> genericService, IUnitOfWork unitOfWork)
         {
             _genericService = genericService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             return ActionResultInstance(await _genericService.GetAllAsync());
+        }
+
+        [HttpGet("UoW")]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var result = await _unitOfWork.ProductRepository.GetAllAsync();
+            return Ok();
         }
 
         [HttpGet("Search")]
@@ -40,14 +49,14 @@ namespace DefaultGenericProject.WebApi.Controllers
         {
             return ActionResultInstance(await _genericService.GetByIdAsync(id));
         }
+
         [HttpPost]
-        [Authorize(Roles = RoleInfo.ProductAdd)]
         public async Task<IActionResult> Post(ProductDTO productDTO)
         {
             return ActionResultInstance(await _genericService.AddAsync(ObjectMapper.Mapper.Map<Product>(productDTO)));
         }
+
         [HttpPut]
-        [Authorize(Roles = RoleInfo.ProductUpdate)]
         public async Task<IActionResult> Put(ProductDTO productDTO)
         {
             return ActionResultInstance(await _genericService.Update(ObjectMapper.Mapper.Map<Product>(productDTO)));

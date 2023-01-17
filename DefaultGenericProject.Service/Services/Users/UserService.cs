@@ -3,7 +3,6 @@ using DefaultGenericProject.Core.DTOs.Users;
 using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Services.Users;
-using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Service.Mapping;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +13,10 @@ namespace DefaultGenericProject.Service.Services
 {
     public class UserService : GenericService<User>, IUserService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IGenericRepository<User> _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserService(IGenericRepository<User> repository, IUnitOfWork unitOfWork, IGenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor) : base(unitOfWork, repository)
+        public UserService(IGenericRepository<User> repository, IGenericRepository<User> userRepository, IHttpContextAccessor httpContextAccessor) : base(repository)
         {
-            _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -36,7 +33,7 @@ namespace DefaultGenericProject.Service.Services
             userMap.Password = user.Password;
             userMap.IpAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
             _userRepository.Update(userMap);
-            _unitOfWork.Commit();
+            await _userRepository.SaveChangesAsync();
             return Response<NoDataDTO>.Success(204);
         }
 
@@ -49,7 +46,7 @@ namespace DefaultGenericProject.Service.Services
             }
 
             _userRepository.Update(ObjectMapper.Mapper.Map<User>(user));
-            _unitOfWork.Commit();
+            await _userRepository.SaveChangesAsync();
             return Response<NoDataDTO>.Success(204);
         }
 

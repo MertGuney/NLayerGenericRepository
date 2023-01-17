@@ -1,17 +1,22 @@
-﻿using DefaultGenericProject.Core.UnitOfWorks;
-using Microsoft.EntityFrameworkCore;
+﻿using DefaultGenericProject.Core.Models;
+using DefaultGenericProject.Core.Repositories;
+using DefaultGenericProject.Core.UnitOfWorks;
+using DefaultGenericProject.Data.Repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace DefaultGenericProject.Data.UnitOfWorks
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly DbContext _context;
+        private readonly AppDbContext _context;
 
         public UnitOfWork(AppDbContext appDbContext)
         {
             _context = appDbContext;
         }
+
+        public IGenericRepository<Product> ProductRepository => new GenericRepository<Product>(_context);
 
         public void Commit()
         {
@@ -22,5 +27,7 @@ namespace DefaultGenericProject.Data.UnitOfWorks
         {
             await _context.SaveChangesAsync();
         }
+
+        public void Dispose() => _context.Dispose();
     }
 }

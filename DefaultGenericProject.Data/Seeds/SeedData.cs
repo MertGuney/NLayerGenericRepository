@@ -1,6 +1,6 @@
-﻿using DefaultGenericProject.Core.Models.Users;
+﻿using DefaultGenericProject.Core.Constants;
+using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Services;
-using DefaultGenericProject.Core.StringInfos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -29,15 +29,15 @@ namespace DefaultGenericProject.Data.Seeds
 
                 List<Role> roles = new()
                 {
-                    new Role(){Name = RoleInfo.Admin },
-                    new Role(){Name = RoleInfo.Member }
+                    new Role(){Name = RoleConstants.Admin },
+                    new Role(){Name = RoleConstants.Member }
                 };
                 context.Roles.AddRange(roles);
 
                 UserRole userRole = new()
                 {
                     UserId = user.Id,
-                    RoleId = roles.Where(x => x.Name == RoleInfo.Admin).Select(x => x.Id).FirstOrDefault(),
+                    RoleId = roles.Where(x => x.Name == RoleConstants.Admin).Select(x => x.Id).FirstOrDefault(),
                 };
                 context.UserRoles.Add(userRole);
 

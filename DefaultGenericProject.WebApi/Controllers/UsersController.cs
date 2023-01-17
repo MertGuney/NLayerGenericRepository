@@ -1,8 +1,6 @@
 ﻿using DefaultGenericProject.Core.DTOs.Paging;
 using DefaultGenericProject.Core.DTOs.Users;
 using DefaultGenericProject.Core.Services.Users;
-using DefaultGenericProject.Core.StringInfos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

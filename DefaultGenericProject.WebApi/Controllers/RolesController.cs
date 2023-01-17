@@ -1,10 +1,7 @@
 ﻿using DefaultGenericProject.Core.DTOs.Roles;
 using DefaultGenericProject.Core.Models.Users;
 using DefaultGenericProject.Core.Services;
-using DefaultGenericProject.Core.StringInfos;
 using DefaultGenericProject.Service.Mapping;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,7 +9,6 @@ namespace DefaultGenericProject.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize(Roles = RoleInfo.Admin)]
     public class RolesController : CustomBaseController
     {
         private readonly IGenericService<Role> _roleService;
