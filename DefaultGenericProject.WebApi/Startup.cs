@@ -63,7 +63,7 @@ namespace DefaultGenericProject.WebApi
 
             services.AddControllers(x =>
             {
-                x.Filters.Add(new AuthorizeFilter());
+                //x.Filters.Add(new AuthorizeFilter());
                 x.Filters.Add(new ValidateFilterAttribute());
             }).AddFluentValidation(opts =>
             {
