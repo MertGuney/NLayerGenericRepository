@@ -2,16 +2,13 @@
 using DefaultGenericProject.Core.Repositories;
 using DefaultGenericProject.Core.Repositories.Users;
 using DefaultGenericProject.Core.Services;
-using DefaultGenericProject.Core.Services.Helpers;
 using DefaultGenericProject.Core.Services.Users;
 using DefaultGenericProject.Core.UnitOfWorks;
 using DefaultGenericProject.Data.Repositories;
 using DefaultGenericProject.Data.Repositories.Users;
 using DefaultGenericProject.Data.UnitOfWorks;
-using DefaultGenericProject.Service.Handlers;
 using DefaultGenericProject.Service.Services;
 using DefaultGenericProject.Service.Services.Auth;
-using DefaultGenericProject.Service.Services.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,13 +43,7 @@ namespace DefaultGenericProject.WebApi.Extensions
         }
         public static void ConfigureHttpClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var serviceApiSettings = configuration.GetSection("IztekApiSettings").Get<IztekApiSettings>();
-
             services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-            services.AddHttpClient<IIztekPlatformService, IztekPlatformService>(opts =>
-            {
-                opts.BaseAddress = new Uri(serviceApiSettings.BaseUri);
-            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
         }
         public static void ConfigureCors(this IServiceCollection services, string policyName)
         {
@@ -60,7 +51,7 @@ namespace DefaultGenericProject.WebApi.Extensions
             {
                 opts.AddPolicy(policyName, builder =>
                 {
-                    builder.WithOrigins("http://127.0.0.1:4000", "http://localhost:3000", "https://izmirteknoloji.com.tr").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                    builder.WithOrigins("http://127.0.0.1:4000", "http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                 });
             });
         }

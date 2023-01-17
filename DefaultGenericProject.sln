@@ -9,11 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.Data"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.Service", "DefaultGenericProject.Service\DefaultGenericProject.Service.csproj", "{5CD3E4EA-C515-43DF-9DB9-9D03B48D29A4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DFCE8F5-FDB8-4414-AE8D-E8AFD82BB64C}"
-	ProjectSection(SolutionItems) = preProject
-		GenelKurallar.txt = GenelKurallar.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DefaultGenericProject.WebApi", "DefaultGenericProject.WebApi\DefaultGenericProject.WebApi.csproj", "{F1BAF9A7-1215-4205-A66C-45DE8648DB08}"
 EndProject
 Global

@@ -11,20 +11,18 @@ namespace DefaultGenericProject.Service.Services.Auth
     {
         private readonly HttpClient _httpClient;
         private readonly Client _clientSettings;
-        private readonly IztekApiSettings _iztekApiSettings;
 
-        public ClientCredentialTokenService(HttpClient httpClient, IOptions<Client> clientSettings, IOptions<IztekApiSettings> iztekApiSettings)
+        public ClientCredentialTokenService(HttpClient httpClient, IOptions<Client> clientSettings)
         {
             _httpClient = httpClient;
             _clientSettings = clientSettings.Value;
-            _iztekApiSettings = iztekApiSettings.Value;
         }
 
         public async Task<string> GetToken()
         {
             var disco = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address = _iztekApiSettings.IdentityBaseUri,
+                Address = "identityUrl",
                 Policy = new DiscoveryPolicy { RequireHttps = false }
             });
             if (disco.IsError)

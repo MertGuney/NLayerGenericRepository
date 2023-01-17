@@ -57,7 +57,7 @@ namespace DefaultGenericProject.WebApi.Controllers
         [Authorize(Roles = RoleInfo.ProductRemove)]
         public async Task<IActionResult> Remove(ProductDTO productDTO)
         {
-            return ActionResultInstance(await _genericService.SetStatus(productDTO.Id, DataStatus.Inactive));
+            return ActionResultInstance(await _genericService.SetStatus(productDTO.Id, DataStatus.Active, DataStatus.Inactive));
         }
     }
 }
