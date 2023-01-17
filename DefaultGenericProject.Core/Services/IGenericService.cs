@@ -17,7 +17,7 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<TEntity> GetById(Guid id);
+        Response<TEntity> GetById(Guid id, bool isTracking = true);
         /// <summary>
         /// Senkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye TypeParam(class olmalıdır.) Olarak Tanımlanan DTO Nesnesini Döner.
         /// </summary>
@@ -25,14 +25,14 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<TDTO> GetById<TDTO>(Guid id) where TDTO : class;
+        Response<TDTO> GetById<TDTO>(Guid id, bool isTracking = true) where TDTO : class;
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye Entity döner.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<TEntity>> GetByIdAsync(Guid id);
+        Task<Response<TEntity>> GetByIdAsync(Guid id, bool isTracking = true);
         /// <summary>
         /// ASenkron 'ID' alanına göre tekil veri getirme işlemidir. Geriye TypeParam(class olmalıdır.) Olarak Tanımlanan DTO Nesnesini Döner.
         /// </summary>
@@ -40,20 +40,20 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="id"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id) where TDTO : class;
+        Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id, bool isTracking = true) where TDTO : class;
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir. IQueryable(Sorgulanabilir) Entity Döner.
         /// </summary>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<IQueryable<TEntity>> GetAll();
+        Response<IQueryable<TEntity>> GetAll(bool isTracking = true);
         /// <summary>
         /// Senkron tüm verileri getirme işlemidir.Geriye TypeParam(class olmalıdır.) IQueryable(Sorgulanabilir) DTO Nesnesini Döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<IQueryable<TDTO>> GetAll<TDTO>();
+        Response<IQueryable<TDTO>> GetAll<TDTO>( bool isTracking = true);
         /// <summary>
         /// Sayfalama ile tüm verileri getirme işlemi. Aramak istediğiniz sorguyu parametre olarak linq ile sorgulamanız gerekmektedir.
         /// </summary>
@@ -62,46 +62,46 @@ namespace DefaultGenericProject.Core.Services
         /// <param name="predicate"></param>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate);
+        Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, bool isTracking = true);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye Entity Listesi Döner.
         /// </summary>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TEntity>>> GetAllAsync();
+        Task<Response<IEnumerable<TEntity>>> GetAllAsync( bool isTracking = true);
         /// <summary>
         /// ASenkron tüm verileri getirme işlemidir. Geriye TypeParam(class olmalıdır.) tipinde DTO listesi döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="dataStatus"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>();
+        Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>(bool isTracking = true);
         /// <summary>
         /// Sorgulama işlemidir. Func Delege alır. Geriye IEnumerable Entity döner.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TEntity>>> Where(Expression<Func<TEntity, bool>> predicate);
+        Task<Response<IEnumerable<TEntity>>> Where(Expression<Func<TEntity, bool>> predicate, bool isTracking = true);
         /// <summary>
         /// Sorgulama işlemidir. Func Delege alır. Geriye TypeParam(class olmalıdır.) tipinde IEnumerable TDTO döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TDTO>>> Where<TDTO>(Expression<Func<TEntity, bool>> predicate);
+        Task<Response<IEnumerable<TDTO>>> Where<TDTO>(Expression<Func<TEntity, bool>> predicate, bool isTracking = true);
         /// <summary>
         /// Entity dahil etme işlemidir. Func Delege alır. Geriye IEnumerable Entity döner.
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TEntity>>> Include(Expression<Func<TEntity, object>> expression);
+        Task<Response<IEnumerable<TEntity>>> Include(Expression<Func<TEntity, object>> expression, bool isTracking = true);
         /// <summary>
         /// Entity dahil etme işlemidir. Func Delege alır. Geriye TypeParam(class olmalıdır.) tipinde IEnumerable TDTO döner.
         /// </summary>
         /// <typeparam name="TDTO"></typeparam>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<Response<IEnumerable<TDTO>>> Include<TDTO>(Expression<Func<TEntity, object>> expression);
+        Task<Response<IEnumerable<TDTO>>> Include<TDTO>(Expression<Func<TEntity, object>> expression, bool isTracking = true);
         /// <summary>
         /// Veri olup olmadığını kontrol eder. Func delege alır. Geriye Bool döner.
         /// </summary>

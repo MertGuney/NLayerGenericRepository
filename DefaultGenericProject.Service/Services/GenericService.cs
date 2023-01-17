@@ -26,9 +26,9 @@ namespace DefaultGenericProject.Service.Services
         #region Read
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression) => await _genericRepository.AnyAsync(expression);
 
-        public Response<IQueryable<TEntity>> GetAll()
+        public Response<IQueryable<TEntity>> GetAll(bool isTracking = true)
         {
-            var results = _genericRepository.GetAll();
+            var results = _genericRepository.GetAll(isTracking);
             if (results == null)
             {
                 return Response<IQueryable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -36,9 +36,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TEntity>>.Success(results, 200);
         }
 
-        public Response<IQueryable<TDTO>> GetAll<TDTO>()
+        public Response<IQueryable<TDTO>> GetAll<TDTO>(bool isTracking = true)
         {
-            var results = _genericRepository.GetAll();
+            var results = _genericRepository.GetAll(isTracking);
             if (results == null)
             {
                 return Response<IQueryable<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -47,9 +47,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IQueryable<TDTO>>.Success(resultsMap, 200);
         }
 
-        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate)
+        public Response<PagingResponseDTO<TDTO>> GetAll<TDTO>(PagingParamaterDTO pagingParamaterDTO, Expression<Func<TEntity, bool>> predicate, bool isTracking = true)
         {
-            var results = _genericRepository.GetAll();
+            var results = _genericRepository.GetAll(isTracking);
             if (results == null)
             {
                 return Response<PagingResponseDTO<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -66,9 +66,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<PagingResponseDTO<TDTO>>.Success(result, 200);
         }
 
-        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync()
+        public async Task<Response<IEnumerable<TEntity>>> GetAllAsync(bool isTracking = true)
         {
-            var results = await _genericRepository.GetAllAsync();
+            var results = await _genericRepository.GetAllAsync(isTracking);
             if (results == null)
             {
                 return Response<IEnumerable<TEntity>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -76,9 +76,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public async Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>()
+        public async Task<Response<IEnumerable<TDTO>>> GetAllAsync<TDTO>(bool isTracking = true)
         {
-            var results = await _genericRepository.GetAllAsync();
+            var results = await _genericRepository.GetAllAsync(isTracking);
             if (results == null)
             {
                 return Response<IEnumerable<TDTO>>.Fail("Sonuç bulunamadı.", 404, true);
@@ -87,9 +87,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<IEnumerable<TDTO>>.Success(resultsMap, 200);
         }
 
-        public Response<TEntity> GetById(Guid id)
+        public Response<TEntity> GetById(Guid id, bool isTracking = true)
         {
-            var result = _genericRepository.GetById(id);
+            var result = _genericRepository.GetById(id, isTracking);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -97,9 +97,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(result, 200);
         }
 
-        public Response<TDTO> GetById<TDTO>(Guid id) where TDTO : class
+        public Response<TDTO> GetById<TDTO>(Guid id, bool isTracking = true) where TDTO : class
         {
-            var result = _genericRepository.GetById(id);
+            var result = _genericRepository.GetById(id, isTracking);
             if (result == null)
             {
                 return Response<TDTO>.Fail("Sonuç bulunamadı.", 404, true);
@@ -108,9 +108,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TDTO>.Success(resultMap, 200);
         }
 
-        public async Task<Response<TEntity>> GetByIdAsync(Guid id)
+        public async Task<Response<TEntity>> GetByIdAsync(Guid id, bool isTracking = true)
         {
-            var result = await _genericRepository.GetByIdAsync(id);
+            var result = await _genericRepository.GetByIdAsync(id, isTracking);
             if (result == null)
             {
                 return Response<TEntity>.Fail("Sonuç bulunamadı.", 404, true);
@@ -118,9 +118,9 @@ namespace DefaultGenericProject.Service.Services
             return Response<TEntity>.Success(result, 200);
         }
 
-        public async Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id) where TDTO : class
+        public async Task<Response<TDTO>> GetByIdAsync<TDTO>(Guid id, bool isTracking = true) where TDTO : class
         {
-            var result = await _genericRepository.GetByIdAsync(id);
+            var result = await _genericRepository.GetByIdAsync(id, isTracking);
             if (result == null)
             {
                 return Response<TDTO>.Fail("Sonuç bulunamadı.", 404, true);
@@ -129,27 +129,27 @@ namespace DefaultGenericProject.Service.Services
             return Response<TDTO>.Success(resultMap, 200);
         }
 
-        public async Task<Response<IEnumerable<TEntity>>> Where(Expression<Func<TEntity, bool>> predicate)
+        public async Task<Response<IEnumerable<TEntity>>> Where(Expression<Func<TEntity, bool>> predicate, bool isTracking = true)
         {
-            var results = await _genericRepository.Where(predicate).ToListAsync();
+            var results = await _genericRepository.Where(predicate, isTracking).ToListAsync();
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public async Task<Response<IEnumerable<TDTO>>> Where<TDTO>(Expression<Func<TEntity, bool>> predicate)
+        public async Task<Response<IEnumerable<TDTO>>> Where<TDTO>(Expression<Func<TEntity, bool>> predicate, bool isTracking = true)
         {
-            var results = await _genericRepository.Where(predicate).ToListAsync();
+            var results = await _genericRepository.Where(predicate, isTracking).ToListAsync();
             return Response<IEnumerable<TDTO>>.Success(ObjectMapper.Mapper.Map<List<TDTO>>(results), 200);
         }
 
-        public async Task<Response<IEnumerable<TEntity>>> Include(Expression<Func<TEntity, object>> expression)
+        public async Task<Response<IEnumerable<TEntity>>> Include(Expression<Func<TEntity, object>> expression, bool isTracking = true)
         {
-            var results = await _genericRepository.Include(expression).ToListAsync();
+            var results = await _genericRepository.Include(expression, isTracking).ToListAsync();
             return Response<IEnumerable<TEntity>>.Success(results, 200);
         }
 
-        public async Task<Response<IEnumerable<TDTO>>> Include<TDTO>(Expression<Func<TEntity, object>> expression)
+        public async Task<Response<IEnumerable<TDTO>>> Include<TDTO>(Expression<Func<TEntity, object>> expression, bool isTracking = true)
         {
-            var results = await _genericRepository.Include(expression).ToListAsync();
+            var results = await _genericRepository.Include(expression, isTracking).ToListAsync();
             return Response<IEnumerable<TDTO>>.Success(ObjectMapper.Mapper.Map<List<TDTO>>(results), 200);
         }
         #endregion
